@@ -9,8 +9,10 @@ namespace Bookshop.Models
     {
         public int AuthorId { get; set; }
         [Required]
+        [Display(Name = "Imię")]
         public string Name { get; set; }
         [Required]
+        [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
 
         public ICollection<Book> Book { get; set; }

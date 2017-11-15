@@ -7,7 +7,11 @@ namespace Bookshop.Models
     {
         public int Id { get; set; }
         [Required]
+        [Display(Name = "Tytuł")]
         public string Title { get; set; }
+        [Display(Name = "Data wydania")]
+        [DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime PublicationDate { get; set; }
         [Required]
         public string ISBN { get; set; }

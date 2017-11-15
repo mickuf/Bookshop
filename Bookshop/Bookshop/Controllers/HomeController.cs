@@ -9,20 +9,10 @@ namespace Bookshop.Controllers
 {
     public class HomeController : Controller
     {
-        DatabaseBookshop database = new DatabaseBookshop();
-
-        //// GET: Home
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
-        public string Index()
+        // GET: Home
+        public ActionResult Index()
         {
-            //database.TestDate();
-
-            Book book = database.Books.FirstOrDefault();
-            return book.Id + book.Title + book.AuthorId + book.Author + book.ISBN + book.PublicationDate + database.Database.Connection.ConnectionString;
+            return View();
         }
     }
 }

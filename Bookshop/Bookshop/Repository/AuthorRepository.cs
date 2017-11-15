@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Bookshop.Models;
+using System.Data.Entity;
 
 namespace Bookshop.Repository
 {
@@ -17,12 +18,13 @@ namespace Bookshop.Repository
 
         public void DeleteAuthor(int authorId)
         {
-            throw new NotImplementedException();
+            Author author = _database.Authors.Find(authorId);
+            _database.Authors.Remove(author);
         }
 
         public Author GetAuthorById(int authorId)
         {
-            throw new NotImplementedException();
+            return _database.Authors.Find(authorId);
         }
 
         public IEnumerable<Author> GetAuthors()
@@ -32,17 +34,17 @@ namespace Bookshop.Repository
 
         public void InsertAuthor(Author author)
         {
-            throw new NotImplementedException();
+            _database.Authors.Add(author);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _database.SaveChanges();
         }
 
         public void UpdateAuthor(Author author)
         {
-            throw new NotImplementedException();
+            _database.Entry(author).State = EntityState.Modified;
         }
     }
 }

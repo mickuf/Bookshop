@@ -59,7 +59,6 @@ namespace Bookshop.Controllers
         }
 
         // GET: Author/Edit/5
-
         public ActionResult Edit(int id)
         {
             Author author = _authorRepository.GetAuthorById(id);
@@ -85,6 +84,34 @@ namespace Bookshop.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
             }
             return View();
+        }
+
+        // GET: Author/Delete/5
+        public ActionResult Delete(int id)
+        {
+            Author author = _authorRepository.GetAuthorById(id);
+
+            if (author == null)
+                return new HttpNotFoundResult();
+            
+            return View(author);
+        }
+
+        // POST: Author/Delete/5
+        [HttpPost]
+        public ActionResult Delete(Author author)
+        {
+            try
+            {
+                _authorRepository.DeleteAuthor(author.AuthorId);
+                _authorRepository.Save();
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
+                //return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("Index");
         }
     }
 }

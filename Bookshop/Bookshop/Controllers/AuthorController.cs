@@ -57,5 +57,34 @@ namespace Bookshop.Controllers
             }
             return View();
         }
+
+        // GET: Author/Edit/5
+
+        public ActionResult Edit(int id)
+        {
+            Author author = _authorRepository.GetAuthorById(id);
+            return View(author);
+        }
+
+        // POST: Author/Edit/5
+        [HttpPost]
+        public ActionResult Edit(Author author)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _authorRepository.UpdateAuthor(author);
+                    _authorRepository.Save();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
+                ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
+            }
+            return View();
+        }
     }
 }

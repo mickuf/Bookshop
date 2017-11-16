@@ -113,5 +113,12 @@ namespace Bookshop.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        // GET: Author/Details/5
+        public ViewResult Details(int id)
+        {
+            Author author = _authorRepository.GetAuthorById(id);
+            return View(author);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Bookshop.Repository
     {
         IEnumerable<Book> GetBooks();
         Book GetBookById(int bookId);
-        void InsertBook(Book book);
+        int InsertBook(Book book);
         void UpdateBook(Book book);
         void DeleteBook(int bookId);
         void Save();

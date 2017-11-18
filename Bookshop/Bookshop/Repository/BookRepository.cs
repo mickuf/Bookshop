@@ -18,12 +18,13 @@ namespace Bookshop.Repository
 
         public void DeleteBook(int bookId)
         {
-            throw new NotImplementedException();
+            Book book = _database.Books.Find(bookId);
+            _database.Books.Remove(book);
         }
 
         public Book GetBookById(int bookId)
         {
-            throw new NotImplementedException();
+            return _database.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == bookId);
         }
 
         public IEnumerable<Book> GetBooks()
@@ -31,19 +32,20 @@ namespace Bookshop.Repository
             return _database.Books.Include(b => b.Author).ToList();
         }
 
-        public void InsertBook(Book book)
+        public int InsertBook(Book book)
         {
-            throw new NotImplementedException();
+            _database.Books.Add(book);
+            return book.Id;
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _database.SaveChanges();
         }
 
         public void UpdateBook(Book book)
         {
-            throw new NotImplementedException();
+            _database.Entry(book).State = EntityState.Modified;
         }
     }
 }

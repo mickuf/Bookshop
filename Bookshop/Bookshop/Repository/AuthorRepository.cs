@@ -34,7 +34,16 @@ namespace Bookshop.Repository
 
         public void InsertAuthor(Author author)
         {
-            _database.Authors.Add(author);
+            try
+            {
+                _database.Authors.Add(author);
+                _database.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
         }
 
         public void Save()

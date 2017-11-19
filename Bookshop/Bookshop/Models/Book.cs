@@ -17,6 +17,7 @@ namespace Bookshop.Models
         public string ISBN { get; set; }
 
         public int AuthorId { get; set; }
+        [Display(Name = "Autor")]
         public Author Author { get; set; }
     }
 }

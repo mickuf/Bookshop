@@ -39,7 +39,8 @@ namespace Bookshop.Controllers
 
         // POST: Author/Create
         [HttpPost]
-        public ActionResult Create(Author author)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "AuthorId,Name,Surname")] Author author)
         {
             try
             {
@@ -67,7 +68,8 @@ namespace Bookshop.Controllers
 
         // POST: Author/Edit/5
         [HttpPost]
-        public ActionResult Edit(Author author)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "AuthorId,Name,Surname")] Author author)
         {
             try
             {

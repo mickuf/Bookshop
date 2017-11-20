@@ -8,10 +8,14 @@ namespace Bookshop.Models
     public class Author
     {
         public int AuthorId { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Imię musi mieć od 2 do 20 znaków")]
+        [StringLength(20, MinimumLength = 2)]
         [Display(Name = "Imię")]
         public string Name { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Nazwisko musi mieć od 2 do 20 znaków")]
+        [StringLength(20, MinimumLength = 2)]
         [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
 

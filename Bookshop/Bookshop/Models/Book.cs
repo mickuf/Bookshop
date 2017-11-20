@@ -6,17 +6,23 @@ namespace Bookshop.Models
     public class Book
     {
         public int Id { get; set; }
+
         [Required]
+        [StringLength(50, MinimumLength = 2)]
         [Display(Name = "Tytuł")]
         public string Title { get; set; }
+ 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         [Display(Name = "Data wydania")]
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
-        public DateTime PublicationDate { get; set; } // uwaga z tym .... moze psuc create i edite
+        public DateTime PublicationDate { get; set; }
+
         [Required]
+        [StringLength(17, MinimumLength = 10)]
         public string ISBN { get; set; }
 
         public int AuthorId { get; set; }
+
         [Display(Name = "Autor")]
         public Author Author { get; set; }
     }

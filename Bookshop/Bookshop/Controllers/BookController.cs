@@ -63,7 +63,8 @@ namespace Bookshop.Controllers
 
         // POST: Book/Create
         [HttpPost]
-        public ActionResult Create(BookModifyViewModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Title,PublicationDate,ISBN,AuthorId")] BookModifyViewModel model)
         {
             try
             {
@@ -81,6 +82,8 @@ namespace Bookshop.Controllers
 
                     return RedirectToAction("Index");
                 }
+                model.Authors = GetAuthorsSelectList();
+                return View(model);
             }
             catch (DataException dex)
             {
@@ -109,7 +112,8 @@ namespace Bookshop.Controllers
 
         // POST: Book/Edit/5
         [HttpPost]
-        public ActionResult Edit(BookModifyViewModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Title,PublicationDate,ISBN,AuthorId")] BookModifyViewModel model)
         {
             try
             {

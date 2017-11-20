@@ -150,6 +150,14 @@
     <Compile Include="Migrations\201711141221241_InitialCreate.Designer.cs">
       <DependentUpon>201711141221241_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711191728140_DataAnnotations.cs" />
+    <Compile Include="Migrations\201711191728140_DataAnnotations.Designer.cs">
+      <DependentUpon>201711191728140_DataAnnotations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711191830168_DataAnnotations1.cs" />
+    <Compile Include="Migrations\201711191830168_DataAnnotations1.Designer.cs">
+      <DependentUpon>201711191830168_DataAnnotations1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
@@ -197,6 +205,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711141221241_InitialCreate.resx">
       <DependentUpon>201711141221241_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711191728140_DataAnnotations.resx">
+      <DependentUpon>201711191728140_DataAnnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711191830168_DataAnnotations1.resx">
+      <DependentUpon>201711191830168_DataAnnotations1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

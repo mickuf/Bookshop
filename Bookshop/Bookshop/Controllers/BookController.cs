@@ -65,7 +65,7 @@ namespace Bookshop.Controllers
         // POST: Book/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,PublicationDate,ISBN,AuthorId")] BookModifyViewModel model)
+        public ActionResult Create([Bind(Include = "Id,Title,PublicationDate,ISBN,Description,AuthorId")] BookModifyViewModel model)
         {
             try
             {
@@ -76,6 +76,7 @@ namespace Bookshop.Controllers
                         Title = model.Title,
                         PublicationDate = model.PublicationDate,
                         ISBN = model.ISBN,
+                        Description = model.Description,
                         AuthorId = model.AuthorId
                     });
 
@@ -106,6 +107,7 @@ namespace Bookshop.Controllers
                     Title = book.Title,
                     PublicationDate = book.PublicationDate,
                     ISBN = book.ISBN,
+                    Description = book.Description,
                     AuthorId = book.AuthorId,
                     Authors = GetAuthorsSelectList()
                 });
@@ -114,7 +116,7 @@ namespace Bookshop.Controllers
         // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,PublicationDate,ISBN,AuthorId")] BookModifyViewModel model)
+        public ActionResult Edit([Bind(Include = "Id,Title,PublicationDate,ISBN,Description,AuthorId")] BookModifyViewModel model)
         {
             try
             {
@@ -129,12 +131,15 @@ namespace Bookshop.Controllers
                             Title = model.Title,
                             PublicationDate = model.PublicationDate,
                             ISBN = model.ISBN,
+                            Description = model.Description,
                             AuthorId = model.AuthorId
                         });
 
                     _bookRepository.Save();
                     return RedirectToAction("Index");
                 }
+                model.Authors = GetAuthorsSelectList();
+                return View(model);
             }
             catch (DataException dex)
             {

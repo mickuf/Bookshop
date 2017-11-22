@@ -19,6 +19,11 @@ namespace Bookshop.Models
         [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
 
+        [Required(ErrorMessage = "Opis musi zawierać od 50 do 2000 znaków")]
+        [StringLength(2000, MinimumLength = 50)]
+        [Display(Name = "Opis")]
+        public string Description { get; set; }
+
         public ICollection<Book> Book { get; set; }
     }
 }

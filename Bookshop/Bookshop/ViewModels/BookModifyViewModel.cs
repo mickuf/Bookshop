@@ -16,9 +16,9 @@ namespace Bookshop.ViewModels
         [Display(Name = "Tytuł")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Data musi być zapisana w formacie dd.mm.yyyy")]
+        [Required(ErrorMessage = "Data musi być zapisana w formacie dd/mm/yyyy")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Data wydania")]
         public DateTime PublicationDate { get; set; }
 

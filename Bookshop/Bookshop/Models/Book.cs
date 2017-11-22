@@ -13,7 +13,7 @@ namespace Bookshop.Models
         public string Title { get; set; }
  
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data wydania")]
         public DateTime PublicationDate { get; set; }
 

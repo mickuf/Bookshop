@@ -57,6 +57,7 @@ namespace Bookshop.Controllers
             return View("Create",
                 new BookModifyViewModel()
                 {
+                    PublicationDate = DateTime.Today,
                     Authors = GetAuthorsSelectList()
                 });
         }

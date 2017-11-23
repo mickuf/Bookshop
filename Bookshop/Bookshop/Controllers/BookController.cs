@@ -43,10 +43,23 @@ namespace Bookshop.Controllers
             return authors;
         }
 
+        private bool IsInsensitiveString(string value, string filter)
+        {
+            return value.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) != -1;
+        }
+
         // GET: Book
-        public ActionResult Index()
+        public ActionResult Index(string filter)
         {
             IEnumerable<Book> Books = _bookRepository.GetBooks();
+
+            if (!String.IsNullOrEmpty(filter))
+            {
+                Books = Books.Where(b => IsInsensitiveString(b.Title, filter) ||
+                IsInsensitiveString(b.Author.Name, filter) ||
+                IsInsensitiveString(b.Author.Surname, filter) ||
+                IsInsensitiveString(b.ISBN, filter));
+            }
 
             return View(Books);
         }

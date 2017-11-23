@@ -8,6 +8,12 @@
 
 <p>
     @Html.ActionLink("Dodaj książkę", "Create")
+
+    @using (Html.BeginForm("Index", "Book", FormMethod.Get))
+    {
+        @Html.TextBox("filter", "", new { @class = "form-control", placeholder = "Wpisz czego szukasz" } ) <br />
+        <input type="submit" value="Szukaj" class="btn btn-default" />
+    }
 </p>
 <table class="table">
     <tr>

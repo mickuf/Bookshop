@@ -21,7 +21,7 @@ namespace Bookshop.Models
         [StringLength(17, MinimumLength = 10)]
         public string ISBN { get; set; }
 
-        [Required(ErrorMessage = "Opis musi zawierać od 50 do 2000 znaków")]
+        [Required]
         [StringLength(2000, MinimumLength = 50)]
         [Display(Name = "Opis")]
         public string Description { get; set; }

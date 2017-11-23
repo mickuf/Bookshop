@@ -23,10 +23,21 @@ namespace Bookshop.Controllers
             _authorRepository = authorRepository;
         }
 
+        private bool IsInsensitiveString(string value, string filter)
+        {
+            return value.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) != -1;
+        }
+
         // GET: Author
-        public ActionResult Index()
+        public ActionResult Index(string filter)
         {
             IEnumerable<Author> Authors = _authorRepository.GetAuthors();
+
+            if (!String.IsNullOrEmpty(filter))
+            {
+                Authors = Authors.Where(a => IsInsensitiveString(a.Name, filter) ||
+                IsInsensitiveString(a.Surname, filter));
+            }
 
             return View(Authors);
         }

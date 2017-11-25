@@ -1,5 +1,6 @@
 ﻿using Bookshop.Models;
 using Bookshop.Repository;
+using Bookshop.Utils;
 using Bookshop.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,73 +12,52 @@ namespace Bookshop.Controllers
 {
     public class BookController : Controller
     {
-        private IBookRepository _bookRepository;
-        private IAuthorRepository _authorRepository;
+        private readonly IBookRepository _bookRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly ISearchUtility _searchUtility;
 
         public BookController()
         {
             _bookRepository = new BookRepository(new BookshopDbContext());
             _authorRepository = new AuthorRepository(new BookshopDbContext());
+            _searchUtility = new SearchUtilty();
         }
 
-        public BookController(IBookRepository bookRepository, IAuthorRepository authorRepository)
+        public BookController(IBookRepository bookRepository, IAuthorRepository authorRepository, ISearchUtility searchUtility)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
+            _searchUtility = searchUtility;
         }
 
-        private List<SelectListItem> GetAuthorsSelectList()
-        {
-            List<SelectListItem> authors = new List<SelectListItem>();
-
-            foreach (Author author in _authorRepository.GetAuthors())
-            {
-                authors.Add(new SelectListItem()
-                {
-                    Text = author.Name + " " + author.Surname,
-                    Value = author.AuthorId.ToString()
-                });
-            }
-
-            return authors;
-        }
-
-        private bool IsInsensitiveString(string value, string filter)
-        {
-            return value.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) != -1;
-        }
-
-        // GET: Book
         public ActionResult Index(string filter)
         {
             IEnumerable<Book> Books = _bookRepository.GetBooks();
 
             if (!String.IsNullOrEmpty(filter))
             {
-                Books = Books.Where(b => IsInsensitiveString(b.Title, filter) ||
-                IsInsensitiveString(b.Author.Name, filter) ||
-                IsInsensitiveString(b.Author.Surname, filter) ||
-                IsInsensitiveString(b.ISBN, filter));
+                Books = Books.Where(b => _searchUtility.IsInsensitiveString(b.Title, filter) ||
+                _searchUtility.IsInsensitiveString(b.Author.Name, filter) ||
+                _searchUtility.IsInsensitiveString(b.Author.Surname, filter) ||
+                _searchUtility.IsInsensitiveString(b.ISBN, filter));
             }
 
             return View(Books);
         }
 
-        // GET: Book/Create
         public ActionResult Create()
         {
             return View("Create",
                 new BookModifyViewModel()
                 {
                     PublicationDate = DateTime.Today,
-                    Authors = GetAuthorsSelectList()
+                    Authors = _authorRepository.GetAuthorsSelectList().ToList()
                 });
         }
 
-        // POST: Book/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,PublicationDate,ISBN,Description,AuthorId")] BookModifyViewModel model)
+        public ActionResult Create(BookModifyViewModel model)
         {
             try
             {
@@ -92,11 +72,9 @@ namespace Bookshop.Controllers
                         AuthorId = model.AuthorId
                     });
 
-                    _bookRepository.Save();
-
                     return RedirectToAction("Index");
                 }
-                model.Authors = GetAuthorsSelectList();
+                model.Authors = _authorRepository.GetAuthorsSelectList().ToList();
                 return View(model);
             }
             catch (DataException dex)
@@ -107,7 +85,6 @@ namespace Bookshop.Controllers
             return View();
         }
 
-        // GET: Book/Edit/5
         public ActionResult Edit(int id)
         {
             Book book = _bookRepository.GetBookById(id);
@@ -121,14 +98,13 @@ namespace Bookshop.Controllers
                     ISBN = book.ISBN,
                     Description = book.Description,
                     AuthorId = book.AuthorId,
-                    Authors = GetAuthorsSelectList()
+                    Authors = _authorRepository.GetAuthorsSelectList().ToList()
                 });
         }
 
-        // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,PublicationDate,ISBN,Description,AuthorId")] BookModifyViewModel model)
+        public ActionResult Edit(BookModifyViewModel model)
         {
             try
             {
@@ -147,10 +123,9 @@ namespace Bookshop.Controllers
                             AuthorId = model.AuthorId
                         });
 
-                    _bookRepository.Save();
                     return RedirectToAction("Index");
                 }
-                model.Authors = GetAuthorsSelectList();
+                model.Authors = _authorRepository.GetAuthorsSelectList().ToList();
                 return View(model);
             }
             catch (DataException dex)
@@ -161,7 +136,6 @@ namespace Bookshop.Controllers
             return View();
         }
 
-        // GET: Book/Delete/5
         public ActionResult Delete(int id)
         {
             Book book = _bookRepository.GetBookById(id);
@@ -172,14 +146,12 @@ namespace Bookshop.Controllers
             return View(book);
         }
 
-        // POST: Book/Delete/5
         [HttpPost]
         public ActionResult Delete(Book book)
         {
             try
             {
                 _bookRepository.DeleteBook(book.Id);
-                _bookRepository.Save();
             }
             catch (DataException /* dex */)
             {
@@ -189,7 +161,6 @@ namespace Bookshop.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Book/Details/5
         public ViewResult Details(int id)
         {
             Book book = _bookRepository.GetBookById(id);

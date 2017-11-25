@@ -3,40 +3,58 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace Bookshop.Repository
 {
     public class AuthorRepository : IAuthorRepository
     {
-        private BookshopDbContext _database;
+        private readonly BookshopDbContext _bookshopDbContext;
 
         public AuthorRepository(BookshopDbContext database)
         {
-            _database = database;
+            _bookshopDbContext = database;
         }
 
         public void DeleteAuthor(int authorId)
         {
-            Author author = _database.Authors.Find(authorId);
-            _database.Authors.Remove(author);
+            Author author = _bookshopDbContext.Authors.Find(authorId);
+            _bookshopDbContext.Authors.Remove(author);
+            _bookshopDbContext.SaveChanges();
         }
 
         public Author GetAuthorById(int authorId)
         {
-            return _database.Authors.Find(authorId);
+            return _bookshopDbContext.Authors.Find(authorId);
         }
 
         public IEnumerable<Author> GetAuthors()
         {
-            return _database.Authors.ToList();
+            return _bookshopDbContext.Authors.ToList();
+        }
+
+        public IEnumerable<SelectListItem> GetAuthorsSelectList()
+        {
+            List<SelectListItem> authors = new List<SelectListItem>();
+
+            foreach (Author author in _bookshopDbContext.Authors.ToList())
+            {
+                authors.Add(new SelectListItem()
+                {
+                    Text = author.Name + " " + author.Surname,
+                    Value = author.AuthorId.ToString()
+                });
+            }
+
+            return authors;
         }
 
         public void InsertAuthor(Author author)
         {
             try
             {
-                _database.Authors.Add(author);
-                _database.SaveChanges();
+                _bookshopDbContext.Authors.Add(author);
+                _bookshopDbContext.SaveChanges();
             }
             catch(Exception ex)
             {
@@ -45,14 +63,10 @@ namespace Bookshop.Repository
 
         }
 
-        public void Save()
-        {
-            _database.SaveChanges();
-        }
-
         public void UpdateAuthor(Author author)
         {
-            _database.Entry(author).State = EntityState.Modified;
+            _bookshopDbContext.Entry(author).State = EntityState.Modified;
+            _bookshopDbContext.SaveChanges();
         }
     }
 }

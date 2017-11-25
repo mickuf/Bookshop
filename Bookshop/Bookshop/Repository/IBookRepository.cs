@@ -7,9 +7,8 @@ namespace Bookshop.Repository
     {
         IEnumerable<Book> GetBooks();
         Book GetBookById(int bookId);
-        int InsertBook(Book book);
+        void InsertBook(Book book);
         void UpdateBook(Book book);
         void DeleteBook(int bookId);
-        void Save();
     }
 }

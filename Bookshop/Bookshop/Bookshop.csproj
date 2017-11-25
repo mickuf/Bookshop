@@ -176,6 +176,8 @@
     <Compile Include="Repository\BookRepository.cs" />
     <Compile Include="Repository\IAuthorRepository.cs" />
     <Compile Include="Repository\IBookRepository.cs" />
+    <Compile Include="Utils\ISearchUtility.cs" />
+    <Compile Include="Utils\SearchUtilty.cs" />
     <Compile Include="ViewModels\BookModifyViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

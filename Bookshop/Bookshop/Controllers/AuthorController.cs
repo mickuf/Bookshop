@@ -1,5 +1,6 @@
 ﻿using Bookshop.Models;
 using Bookshop.Repository;
+using Bookshop.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,54 +11,49 @@ namespace Bookshop.Controllers
 {
     public class AuthorController : Controller
     {
-        private IAuthorRepository _authorRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly ISearchUtility _searchUtility;
 
         public AuthorController()
         {
             _authorRepository = new AuthorRepository(new BookshopDbContext());
+            _searchUtility = new SearchUtilty();
         }
 
-        public AuthorController(IAuthorRepository authorRepository)
+        public AuthorController(IAuthorRepository authorRepository, ISearchUtility searchUtility)
         {
             _authorRepository = authorRepository;
+            _searchUtility = searchUtility;
         }
 
-        private bool IsInsensitiveString(string value, string filter)
-        {
-            return value.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) != -1;
-        }
 
-        // GET: Author
         public ActionResult Index(string filter)
         {
             IEnumerable<Author> Authors = _authorRepository.GetAuthors();
 
             if (!String.IsNullOrEmpty(filter))
             {
-                Authors = Authors.Where(a => IsInsensitiveString(a.Name, filter) ||
-                IsInsensitiveString(a.Surname, filter));
+                Authors = Authors.Where(a => _searchUtility.IsInsensitiveString(a.Name, filter) ||
+                _searchUtility.IsInsensitiveString(a.Surname, filter));
             }
 
             return View(Authors);
         }
 
-        // GET: Author/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Author/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AuthorId,Name,Surname,Description")] Author author)
+        public ActionResult Create(Author author)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     _authorRepository.InsertAuthor(author);
-                    _authorRepository.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -69,24 +65,21 @@ namespace Bookshop.Controllers
             return View();
         }
 
-        // GET: Author/Edit/5
         public ActionResult Edit(int id)
         {
             Author author = _authorRepository.GetAuthorById(id);
             return View(author);
         }
 
-        // POST: Author/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AuthorId,Name,Surname,Description")] Author author)
+        public ActionResult Edit(Author author)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     _authorRepository.UpdateAuthor(author);
-                    _authorRepository.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -98,7 +91,6 @@ namespace Bookshop.Controllers
             return View();
         }
 
-        // GET: Author/Delete/5
         public ActionResult Delete(int id)
         {
             Author author = _authorRepository.GetAuthorById(id);
@@ -109,14 +101,12 @@ namespace Bookshop.Controllers
             return View(author);
         }
 
-        // POST: Author/Delete/5
         [HttpPost]
         public ActionResult Delete(Author author)
         {
             try
             {
                 _authorRepository.DeleteAuthor(author.AuthorId);
-                _authorRepository.Save();
             }
             catch (DataException /* dex */)
             {
@@ -126,7 +116,6 @@ namespace Bookshop.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Author/Details/5
         public ViewResult Details(int id)
         {
             Author author = _authorRepository.GetAuthorById(id);

@@ -7,43 +7,40 @@ namespace Bookshop.Repository
 {
     public class BookRepository : IBookRepository
     {
-        private BookshopDbContext _database;
+        private readonly BookshopDbContext _bookshopDbContext;
 
         public BookRepository(BookshopDbContext database)
         {
-            _database = database;
+            _bookshopDbContext = database;
         }
 
         public void DeleteBook(int bookId)
         {
-            Book book = _database.Books.Find(bookId);
-            _database.Books.Remove(book);
+            Book book = _bookshopDbContext.Books.Find(bookId);
+            _bookshopDbContext.Books.Remove(book);
+            _bookshopDbContext.SaveChanges();
         }
 
         public Book GetBookById(int bookId)
         {
-            return _database.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == bookId);
+            return _bookshopDbContext.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == bookId);
         }
 
         public IEnumerable<Book> GetBooks()
         {
-            return _database.Books.Include(b => b.Author).ToList();
+            return _bookshopDbContext.Books.Include(b => b.Author).ToList();
         }
 
-        public int InsertBook(Book book)
+        public void InsertBook(Book book)
         {
-            _database.Books.Add(book);
-            return book.Id;
-        }
-
-        public void Save()
-        {
-            _database.SaveChanges();
+            _bookshopDbContext.Books.Add(book);
+            _bookshopDbContext.SaveChanges();
         }
 
         public void UpdateBook(Book book)
         {
-            _database.Entry(book).State = EntityState.Modified;
+            _bookshopDbContext.Entry(book).State = EntityState.Modified;
+            _bookshopDbContext.SaveChanges();
         }
     }
 }

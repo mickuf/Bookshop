@@ -13,6 +13,7 @@ namespace Bookshop.Controllers
     {
         private readonly IAuthorRepository _authorRepository;
         private readonly ISearchUtility _searchUtility;
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public AuthorController()
         {
@@ -32,7 +33,10 @@ namespace Bookshop.Controllers
             IEnumerable<Author> Authors = _authorRepository.GetAuthors();
 
             if (Authors == null)
+            {
+                
                 return new HttpNotFoundResult();
+            }   
 
             if (!String.IsNullOrEmpty(filter))
             {

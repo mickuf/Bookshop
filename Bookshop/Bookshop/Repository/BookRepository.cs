@@ -9,6 +9,7 @@ namespace Bookshop.Repository
     public class BookRepository : IBookRepository
     {
         private readonly BookshopDbContext _bookshopDbContext;
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public BookRepository(BookshopDbContext bookshopDbContext)
         {

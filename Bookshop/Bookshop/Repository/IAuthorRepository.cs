@@ -9,7 +9,7 @@ namespace Bookshop.Repository
         IEnumerable<Author> GetAuthors();
         Author GetAuthorById(int authorId);
         IEnumerable<SelectListItem> GetAuthorsSelectList();
-        void InsertAuthor(Author author);
+        void CreateAuthor(Author author);
         void UpdateAuthor(Author author);
         void DeleteAuthor(int authorId);
     }

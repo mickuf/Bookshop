@@ -34,6 +34,9 @@ namespace Bookshop.Controllers
         {
             IEnumerable<Book> Books = _bookRepository.GetBooks();
 
+            if (Books == null)
+                return new HttpNotFoundResult();
+
             if (!String.IsNullOrEmpty(filter))
             {
                 Books = Books.Where(b => _searchUtility.IsInsensitiveString(b.Title, filter) ||
@@ -47,11 +50,16 @@ namespace Bookshop.Controllers
 
         public ActionResult Create()
         {
+            List<SelectListItem> AuthorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();
+
+            if (AuthorsSelectList == null)
+                return new HttpNotFoundResult();
+
             return View("Create",
                 new BookModifyViewModel()
                 {
                     PublicationDate = DateTime.Today,
-                    Authors = _authorRepository.GetAuthorsSelectList().ToList()
+                    Authors = AuthorsSelectList
                 });
         }
 
@@ -63,7 +71,7 @@ namespace Bookshop.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _bookRepository.InsertBook(new Book()
+                    _bookRepository.CreateBook(new Book()
                     {
                         Title = model.Title,
                         PublicationDate = model.PublicationDate,
@@ -88,6 +96,10 @@ namespace Bookshop.Controllers
         public ActionResult Edit(int id)
         {
             Book book = _bookRepository.GetBookById(id);
+            List<SelectListItem> AuthorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();
+
+            if (book == null || AuthorsSelectList == null)
+                return new HttpNotFoundResult();
 
             return View("Edit",
                 new BookModifyViewModel()
@@ -98,7 +110,7 @@ namespace Bookshop.Controllers
                     ISBN = book.ISBN,
                     Description = book.Description,
                     AuthorId = book.AuthorId,
-                    Authors = _authorRepository.GetAuthorsSelectList().ToList()
+                    Authors = AuthorsSelectList
                 });
         }
 
@@ -161,9 +173,13 @@ namespace Bookshop.Controllers
             return RedirectToAction("Index");
         }
 
-        public ViewResult Details(int id)
+        public ActionResult Details(int id)
         {
             Book book = _bookRepository.GetBookById(id);
+
+            if (book == null)
+                return new HttpNotFoundResult();
+
             return View(book);
         }
     }

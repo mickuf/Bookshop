@@ -1,4 +1,5 @@
 ﻿using Bookshop.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -9,16 +10,23 @@ namespace Bookshop.Repository
     {
         private readonly BookshopDbContext _bookshopDbContext;
 
-        public BookRepository(BookshopDbContext database)
+        public BookRepository(BookshopDbContext bookshopDbContext)
         {
-            _bookshopDbContext = database;
+            _bookshopDbContext = bookshopDbContext;
         }
 
         public void DeleteBook(int bookId)
         {
-            Book book = _bookshopDbContext.Books.Find(bookId);
-            _bookshopDbContext.Books.Remove(book);
-            _bookshopDbContext.SaveChanges();
+            try
+            {
+                Book book = _bookshopDbContext.Books.Find(bookId);
+                _bookshopDbContext.Books.Remove(book);
+                _bookshopDbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public Book GetBookById(int bookId)
@@ -31,16 +39,30 @@ namespace Bookshop.Repository
             return _bookshopDbContext.Books.Include(b => b.Author).ToList();
         }
 
-        public void InsertBook(Book book)
+        public void CreateBook(Book book)
         {
-            _bookshopDbContext.Books.Add(book);
-            _bookshopDbContext.SaveChanges();
+            try
+            {
+                _bookshopDbContext.Books.Add(book);
+                _bookshopDbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public void UpdateBook(Book book)
         {
-            _bookshopDbContext.Entry(book).State = EntityState.Modified;
-            _bookshopDbContext.SaveChanges();
+            try
+            {
+                _bookshopDbContext.Entry(book).State = EntityState.Modified;
+                _bookshopDbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

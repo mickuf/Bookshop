@@ -9,7 +9,14 @@ namespace Bookshop.Utils
     {
         public bool IsInsensitiveString(string value, string filter)
         {
-            return value.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) != -1;
+            if (String.IsNullOrEmpty(value) || String.IsNullOrEmpty(filter))
+            {
+                return false;
+            }
+            else
+            {
+                return value.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) != -1;
+            }
         }
     }
 }

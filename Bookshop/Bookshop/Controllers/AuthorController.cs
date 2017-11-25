@@ -31,6 +31,9 @@ namespace Bookshop.Controllers
         {
             IEnumerable<Author> Authors = _authorRepository.GetAuthors();
 
+            if (Authors == null)
+                return new HttpNotFoundResult();
+
             if (!String.IsNullOrEmpty(filter))
             {
                 Authors = Authors.Where(a => _searchUtility.IsInsensitiveString(a.Name, filter) ||
@@ -48,26 +51,30 @@ namespace Bookshop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Author author)
-        {
-            try
-            {
-                if (ModelState.IsValid)
+        {   
+                try
                 {
-                    _authorRepository.InsertAuthor(author);
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        _authorRepository.CreateAuthor(author);
+                        return RedirectToAction("Index");
+                    }
                 }
-            }
-            catch (DataException /* dex */)
-            {
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
-                ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
-            }
-            return View();
+                catch (DataException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
+                    ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
+                }
+                return View();
         }
 
         public ActionResult Edit(int id)
         {
             Author author = _authorRepository.GetAuthorById(id);
+
+            if (author == null)
+                return new HttpNotFoundResult();
+
             return View(author);
         }
 
@@ -97,7 +104,7 @@ namespace Bookshop.Controllers
 
             if (author == null)
                 return new HttpNotFoundResult();
-            
+
             return View(author);
         }
 
@@ -116,9 +123,13 @@ namespace Bookshop.Controllers
             return RedirectToAction("Index");
         }
 
-        public ViewResult Details(int id)
+        public ActionResult Details(int id)
         {
             Author author = _authorRepository.GetAuthorById(id);
+
+            if (author == null)
+                return new HttpNotFoundResult();
+
             return View(author);
         }
     }

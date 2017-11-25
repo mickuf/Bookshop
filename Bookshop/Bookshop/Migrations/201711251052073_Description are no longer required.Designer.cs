@@ -2,18 +2,17 @@
 namespace Bookshop.Migrations
 {
     using System.CodeDom.Compiler;
-    using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
-    
+
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class DataAnnotations1 : IMigrationMetadata
+    public sealed partial class Descriptionarenolongerrequired : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DataAnnotations1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Descriptionarenolongerrequired));
         
         string IMigrationMetadata.Id
         {
-            get { return "201711191830168_DataAnnotations1"; }
+            get { return "201711251052073_Description are no longer required"; }
         }
         
         string IMigrationMetadata.Source

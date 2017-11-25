@@ -132,6 +132,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datepicker.js" />
     <Content Include="Scripts\jquery-1.5.2.js" />
     <Content Include="Scripts\jquery-1.5.2.min.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
@@ -158,18 +159,18 @@
     <Compile Include="Migrations\201711191728140_DataAnnotations.Designer.cs">
       <DependentUpon>201711191728140_DataAnnotations.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711191830168_DataAnnotations1.cs" />
-    <Compile Include="Migrations\201711191830168_DataAnnotations1.Designer.cs">
-      <DependentUpon>201711191830168_DataAnnotations1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201711222156373_Add Description Field to Books and Authors.cs" />
     <Compile Include="Migrations\201711222156373_Add Description Field to Books and Authors.Designer.cs">
       <DependentUpon>201711222156373_Add Description Field to Books and Authors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711251052073_Description are no longer required.cs" />
+    <Compile Include="Migrations\201711251052073_Description are no longer required.Designer.cs">
+      <DependentUpon>201711251052073_Description are no longer required.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\DatabaseBookshop.cs" />
+    <Compile Include="Models\BookshopDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AuthorRepository.cs" />
     <Compile Include="Repository\BookRepository.cs" />
@@ -216,11 +217,11 @@
     <EmbeddedResource Include="Migrations\201711191728140_DataAnnotations.resx">
       <DependentUpon>201711191728140_DataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711191830168_DataAnnotations1.resx">
-      <DependentUpon>201711191830168_DataAnnotations1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711222156373_Add Description Field to Books and Authors.resx">
       <DependentUpon>201711222156373_Add Description Field to Books and Authors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711251052073_Description are no longer required.resx">
+      <DependentUpon>201711251052073_Description are no longer required.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

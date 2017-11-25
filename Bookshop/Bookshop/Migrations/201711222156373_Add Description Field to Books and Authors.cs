@@ -1,8 +1,7 @@
 namespace Bookshop.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddDescriptionFieldtoBooksandAuthors : DbMigration
     {
         public override void Up()

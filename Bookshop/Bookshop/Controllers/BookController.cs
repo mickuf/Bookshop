@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Bookshop.Models;
 using Bookshop.Repository;
-using Bookshop.Models;
-using System.Data;
 using Bookshop.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Bookshop.Controllers
 {
@@ -17,8 +16,8 @@ namespace Bookshop.Controllers
 
         public BookController()
         {
-            _bookRepository = new BookRepository(new DatabaseBookshop());
-            _authorRepository = new AuthorRepository(new DatabaseBookshop());
+            _bookRepository = new BookRepository(new BookshopDbContext());
+            _authorRepository = new AuthorRepository(new BookshopDbContext());
         }
 
         public BookController(IBookRepository bookRepository, IAuthorRepository authorRepository)

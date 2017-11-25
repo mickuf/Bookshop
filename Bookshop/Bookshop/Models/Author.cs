@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bookshop.Models
@@ -19,8 +17,6 @@ namespace Bookshop.Models
         [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
 
-        [Required(ErrorMessage = "Opis musi zawierać od 50 do 2000 znaków")]
-        [StringLength(2000, MinimumLength = 50)]
         [Display(Name = "Opis")]
         public string Description { get; set; }
 

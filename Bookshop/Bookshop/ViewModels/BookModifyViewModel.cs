@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bookshop.ViewModels
@@ -26,8 +24,6 @@ namespace Bookshop.ViewModels
         [StringLength(17, MinimumLength = 10)]
         public string ISBN { get; set; }
 
-        [Required(ErrorMessage = "Opis musi zawierać od 50 do 2000 znaków")]
-        [StringLength(2000, MinimumLength = 50)]
         [Display(Name = "Opis")]
         public string Description { get; set; }
 

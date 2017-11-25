@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Bookshop.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Bookshop.Models;
 using System.Data.Entity;
+using System.Linq;
 
 namespace Bookshop.Repository
 {
     public class AuthorRepository : IAuthorRepository
     {
-        private DatabaseBookshop _database;
+        private BookshopDbContext _database;
 
-        public AuthorRepository(DatabaseBookshop database)
+        public AuthorRepository(BookshopDbContext database)
         {
             _database = database;
         }

@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Bookshop.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Bookshop.Models;
 
 namespace Bookshop.Repository
 {

@@ -1,5 +1,5 @@
 ﻿using Bookshop.Models;
-using Bookshop.Repository;
+using Bookshop.Repositories;
 using Bookshop.Utils;
 using System;
 using System.Collections.Generic;
@@ -30,13 +30,14 @@ namespace Bookshop.Controllers
 
         public ActionResult Index(string filter)
         {
+            _log.DebugFormat("GET Index with filter: {0}", filter);
             IEnumerable<Author> Authors = _authorRepository.GetAuthors();
 
             if (Authors == null)
             {
-                
+                _log.Warn("Authors list is null!");
                 return new HttpNotFoundResult();
-            }   
+            }
 
             if (!String.IsNullOrEmpty(filter))
             {
@@ -49,35 +50,42 @@ namespace Bookshop.Controllers
 
         public ActionResult Create()
         {
+            _log.Debug("GET Create");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Author author)
-        {   
-                try
+        {
+            _log.DebugFormat("POST Create with author: {0} {1}", author.Name, author.Surname);
+            try
+            {
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
-                    {
-                        _authorRepository.CreateAuthor(author);
-                        return RedirectToAction("Index");
-                    }
+                    _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
+                    _authorRepository.CreateAuthor(author);
+                    return RedirectToAction("Index");
                 }
-                catch (DataException /* dex */)
-                {
-                    //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
-                    ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
-                }
-                return View();
+            }
+            catch (Exception ex)
+            {
+                _log.Warn("Create Author failed!", ex);
+                ModelState.AddModelError(string.Empty, "Nie można zapisać zmian, spróbuj ponowanie");
+            }
+            return View();
         }
 
         public ActionResult Edit(int id)
         {
+            _log.DebugFormat("GET Edit with id: {0}", id);
             Author author = _authorRepository.GetAuthorById(id);
 
             if (author == null)
+            {
+                _log.Warn("Author object is null!");
                 return new HttpNotFoundResult();
+            }
 
             return View(author);
         }
@@ -86,28 +94,34 @@ namespace Bookshop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Author author)
         {
+            _log.DebugFormat("POST Edit with author: {0} {1} with id: {0}", author.Name, author.Surname, author.AuthorId);
             try
             {
                 if (ModelState.IsValid)
                 {
+                    _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
                     _authorRepository.UpdateAuthor(author);
                     return RedirectToAction("Index");
                 }
             }
-            catch (DataException /* dex */)
+            catch (Exception ex)
             {
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
-                ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
+                _log.Warn("Update Author failed!", ex);
+                ModelState.AddModelError(string.Empty, "Nie można zaktualizować autora, spróbuj ponownie");
             }
             return View();
         }
 
         public ActionResult Delete(int id)
         {
+            _log.DebugFormat("GET Delete with id: {0}", id);
             Author author = _authorRepository.GetAuthorById(id);
 
             if (author == null)
+            {
+                _log.Warn("Author object is null!");
                 return new HttpNotFoundResult();
+            }
 
             return View(author);
         }
@@ -115,25 +129,29 @@ namespace Bookshop.Controllers
         [HttpPost]
         public ActionResult Delete(Author author)
         {
+            _log.DebugFormat("POST Delete with author: {0} {1} with id: {2}", author.Name, author.Surname, author.AuthorId);
             try
             {
                 _authorRepository.DeleteAuthor(author.AuthorId);
             }
-            catch (DataException /* dex */)
+            catch (Exception ex)
             {
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
-                //return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+                _log.Warn("Delete Author failed!", ex);
+                ModelState.AddModelError(string.Empty, "Nie można usunąć autora, spróbuj ponownie");
             }
             return RedirectToAction("Index");
         }
 
         public ActionResult Details(int id)
         {
+            _log.DebugFormat("GET Details with id: {0}", id);
             Author author = _authorRepository.GetAuthorById(id);
 
             if (author == null)
+            {
+                _log.Warn("Author object is null!");
                 return new HttpNotFoundResult();
-
+            }          
             return View(author);
         }
     }

@@ -1,7 +1,7 @@
 ﻿using Bookshop.Models;
 using System.Collections.Generic;
 
-namespace Bookshop.Repository
+namespace Bookshop.Repositories
 {
     public interface IBookRepository
     {

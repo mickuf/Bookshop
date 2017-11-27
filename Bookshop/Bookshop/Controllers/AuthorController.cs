@@ -57,10 +57,11 @@ namespace Bookshop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Author author)
-        {
-            _log.DebugFormat("POST Create with author: {0} {1}", author.Name, author.Surname);
+        {   
             try
             {
+                _log.DebugFormat("POST Create with author: {0} {1}", author.Name, author.Surname);
+
                 if (ModelState.IsValid)
                 {
                     _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
@@ -94,9 +95,10 @@ namespace Bookshop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Author author)
         {
-            _log.DebugFormat("POST Edit with author: {0} {1} with id: {0}", author.Name, author.Surname, author.AuthorId);
             try
             {
+                _log.DebugFormat("POST Edit with author: {0} {1} with id: {0}", author.Name, author.Surname, author.AuthorId);
+
                 if (ModelState.IsValid)
                 {
                     _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
@@ -129,9 +131,10 @@ namespace Bookshop.Controllers
         [HttpPost]
         public ActionResult Delete(Author author)
         {
-            _log.DebugFormat("POST Delete with author: {0} {1} with id: {2}", author.Name, author.Surname, author.AuthorId);
             try
             {
+                _log.DebugFormat("POST Delete with author: {0} {1} with id: {2}", author.Name, author.Surname, author.AuthorId);
+
                 _authorRepository.DeleteAuthor(author.AuthorId);
             }
             catch (Exception ex)

@@ -77,7 +77,6 @@ namespace Bookshop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BookModifyViewModel model)
         {
-            _log.DebugFormat("POST Create with book: {0} in model", model.Title);
             try
             {
                 if (ModelState.IsValid)
@@ -136,9 +135,10 @@ namespace Bookshop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BookModifyViewModel model)
         {
-            _log.DebugFormat("POST Edit with book: {0} with id: {1} in model", model.Title, model.Id);
             try
             {
+                _log.DebugFormat("POST Edit with book: {0} with id: {1} in model", model.Title, model.Id);
+
                 if (ModelState.IsValid)
                 {
                     _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
@@ -187,9 +187,10 @@ namespace Bookshop.Controllers
         [HttpPost]
         public ActionResult Delete(Book book)
         {
-            _log.DebugFormat("POST Delete with book: {0} with id: {1}", book.Title, book.Id);
             try
             {
+                _log.DebugFormat("POST Delete with book: {0} with id: {1}", book.Title, book.Id);
+
                 _bookRepository.DeleteBook(book.Id);
             }
             catch (Exception ex)

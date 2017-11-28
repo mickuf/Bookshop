@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Bookshop.Migrations;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -14,7 +15,7 @@ namespace Bookshop.Models
     {
         public BookshopDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
-
+            
         }
 
         public DbSet<Author> Authors { get; set; }
@@ -22,6 +23,7 @@ namespace Bookshop.Models
 
         public static BookshopDbContext Create()
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BookshopDbContext, Configuration>());
             return new BookshopDbContext();
         }
     }

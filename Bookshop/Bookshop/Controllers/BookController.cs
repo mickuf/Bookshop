@@ -4,7 +4,6 @@ using Bookshop.Utils;
 using Bookshop.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,7 +15,7 @@ namespace Bookshop.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly ISearchUtility _searchUtility;
-        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public BookController()
         {
@@ -35,43 +34,36 @@ namespace Bookshop.Controllers
         [AllowAnonymous]
         public ActionResult Index(string filter)
         {
-            _log.DebugFormat("GET Index with filter: {0}", filter);
-            IEnumerable<Book> Books = _bookRepository.GetBooks();
+            Log.DebugFormat("GET Index with filter: {0}", filter);
+            IEnumerable<Book> books = _bookRepository.GetBooks();
 
-            if (Books == null)
+            if (books == null)
             {
-                _log.Warn("Books list is null!");
+                Log.Warn("Books list is null!");
                 return new HttpNotFoundResult();
             }
 
             if (!String.IsNullOrEmpty(filter))
             {
-                Books = Books.Where(b => _searchUtility.IsInsensitiveString(b.Title, filter) ||
+                books = books.Where(b => _searchUtility.IsInsensitiveString(b.Title, filter) ||
                 _searchUtility.IsInsensitiveString(b.Author.Name, filter) ||
                 _searchUtility.IsInsensitiveString(b.Author.Surname, filter) ||
                 _searchUtility.IsInsensitiveString(b.ISBN, filter));
             }
 
-            return View(Books);
+            return View(books);
         }
 
         public ActionResult Create()
         {
-            _log.Debug("GET Create");
-            List<SelectListItem> AuthorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();
-
-            if (AuthorsSelectList == null)
-            {
-                _log.Warn("Books list is null!");
-                return new HttpNotFoundResult();
-            }
-                
+            Log.Debug("GET Create");
+            List<SelectListItem> authorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();              
 
             return View("Create",
                 new BookModifyViewModel()
                 {
                     PublicationDate = DateTime.Today,
-                    Authors = AuthorsSelectList
+                    Authors = authorsSelectList
                 });
         }
 
@@ -83,7 +75,7 @@ namespace Bookshop.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
+                    Log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
                     _bookRepository.CreateBook(new Book()
                     {
                         Title = model.Title,
@@ -95,13 +87,13 @@ namespace Bookshop.Controllers
 
                     return RedirectToAction("Index");
                 }
-                _log.DebugFormat("Is model valid: {0} repopulate authors DropDownList", ModelState.IsValid);
+                Log.DebugFormat("Is model valid: {0} repopulate authors DropDownList", ModelState.IsValid);
                 model.Authors = _authorRepository.GetAuthorsSelectList().ToList();
                 return View(model);
             }
             catch (Exception ex)
             {
-                _log.Warn("Create book failed!", ex);
+                Log.Warn("Create book failed!", ex);
                 ModelState.AddModelError(string.Empty, "Nie można zapisać zmian, spróbuj ponowanie");
             }
             return View();
@@ -109,14 +101,14 @@ namespace Bookshop.Controllers
 
         public ActionResult Edit(int id)
         {
-            _log.DebugFormat("GET Edit with id: {0}", id);
+            Log.DebugFormat("GET Edit with id: {0}", id);
 
             Book book = _bookRepository.GetBookById(id);
-            List<SelectListItem> AuthorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();
+            List<SelectListItem> authorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();
 
-            if (book == null || AuthorsSelectList == null)
+            if (book == null)
             {
-                _log.Warn("Book or AuthorsSelectList object is null!");
+                Log.Warn("Book or AuthorsSelectList object is null!");
                 return new HttpNotFoundResult();
             }
 
@@ -129,7 +121,7 @@ namespace Bookshop.Controllers
                     ISBN = book.ISBN,
                     Description = book.Description,
                     AuthorId = book.AuthorId,
-                    Authors = AuthorsSelectList
+                    Authors = authorsSelectList
                 });
         }
 
@@ -139,13 +131,11 @@ namespace Bookshop.Controllers
         {
             try
             {
-                _log.DebugFormat("POST Edit with book: {0} with id: {1} in model", model.Title, model.Id);
+                Log.DebugFormat("POST Edit with book: {0} with id: {1} in model", model.Title, model.Id);
 
                 if (ModelState.IsValid)
                 {
-                    _log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
-
-                    int bookId = model.Id;
+                    Log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
 
                     _bookRepository.UpdateBook(
                         new Book()
@@ -160,13 +150,13 @@ namespace Bookshop.Controllers
 
                     return RedirectToAction("Index");
                 }
-                _log.DebugFormat("Is model valid: {0} repopulate authors DropDownList", ModelState.IsValid);
+                Log.DebugFormat("Is model valid: {0} repopulate authors DropDownList", ModelState.IsValid);
                 model.Authors = _authorRepository.GetAuthorsSelectList().ToList();
                 return View(model);
             }
             catch (Exception ex)
             {
-                _log.Warn("Update book failed!", ex);
+                Log.Warn("Update book failed!", ex);
                 ModelState.AddModelError(string.Empty, "Nie można zaktualizować książki, spróbuj ponownie");
             }
             return View();
@@ -174,12 +164,12 @@ namespace Bookshop.Controllers
 
         public ActionResult Delete(int id)
         {
-            _log.DebugFormat("GET Delete with id: {0}", id);
+            Log.DebugFormat("GET Delete with id: {0}", id);
             Book book = _bookRepository.GetBookById(id);
 
             if (book == null)
             {
-                _log.Warn("Book object is null!");
+                Log.Warn("Book object is null!");
                 return new HttpNotFoundResult();
             }
 
@@ -191,13 +181,13 @@ namespace Bookshop.Controllers
         {
             try
             {
-                _log.DebugFormat("POST Delete with book: {0} with id: {1}", book.Title, book.Id);
+                Log.DebugFormat("POST Delete with book: {0} with id: {1}", book.Title, book.Id);
 
                 _bookRepository.DeleteBook(book.Id);
             }
             catch (Exception ex)
             {
-                _log.Warn("Delete book failed!", ex);
+                Log.Warn("Delete book failed!", ex);
                 ModelState.AddModelError(string.Empty, "Nie można usunąć książki, spróbuj ponownie");
             }
             return RedirectToAction("Index");
@@ -206,12 +196,12 @@ namespace Bookshop.Controllers
         [AllowAnonymous]
         public ActionResult Details(int id)
         {
-            _log.DebugFormat("GET Details with id: {0}", id);
+            Log.DebugFormat("GET Details with id: {0}", id);
             Book book = _bookRepository.GetBookById(id);
 
             if (book == null)
             {
-                _log.Warn("Book object is null!");
+                Log.Warn("Book object is null!");
                 return new HttpNotFoundResult();
             }           
 

@@ -50,16 +50,18 @@ namespace BookshopTests.Controllers
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
             AuthorController authorController = new AuthorController(authorRepository, searchUtility);
 
-            Author testAuthor = new Author();
-            testAuthor.Name = "Adam";
-            testAuthor.Surname = "Kowalski";
+            Author testAuthor = new Author
+            {
+                Name = "Adam",
+                Surname = "Kowalski"
+            };
 
 
             // Act
             ActionResult result = authorController.Create(testAuthor);
 
             // Assert
-            Assert.Equal("Index", (result as RedirectToRouteResult).RouteValues["action"]);
+            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
         }
 
         [Fact]
@@ -105,16 +107,18 @@ namespace BookshopTests.Controllers
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
             AuthorController authorController = new AuthorController(authorRepository, searchUtility);
 
-            Author testAuthor = new Author();
-            testAuthor.Name = "Adam";
-            testAuthor.Surname = "Kowalski";
+            Author testAuthor = new Author
+            {
+                Name = "Adam",
+                Surname = "Kowalski"
+            };
 
 
             // Act
             ActionResult result = authorController.Edit(testAuthor);
 
             // Assert
-            Assert.Equal("Index", (result as RedirectToRouteResult).RouteValues["action"]);
+            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
         }
 
         [Fact]
@@ -160,17 +164,19 @@ namespace BookshopTests.Controllers
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
             AuthorController authorController = new AuthorController(authorRepository, searchUtility);
 
-            Author testAuthor = new Author();
-            testAuthor.AuthorId = 1;
-            testAuthor.Name = "Adam";
-            testAuthor.Surname = "Kowalski";
+            Author testAuthor = new Author
+            {
+                AuthorId = 1,
+                Name = "Adam",
+                Surname = "Kowalski"
+            };
 
 
             // Act
             ActionResult result = authorController.Delete(testAuthor);
 
             // Assert
-            Assert.Equal("Index", (result as RedirectToRouteResult).RouteValues["action"]);
+            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
         }
 
         [Fact]

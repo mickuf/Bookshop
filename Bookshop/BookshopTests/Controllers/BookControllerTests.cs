@@ -53,16 +53,18 @@ namespace BookshopTests.Controllers
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
             BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
 
-            BookModifyViewModel testBook = new BookModifyViewModel();
-            testBook.Id = 7;
-            testBook.Title = "Gra o Tron";
+            BookModifyViewModel testBook = new BookModifyViewModel
+            {
+                Id = 7,
+                Title = "Gra o Tron"
+            };
 
 
             // Act
             ActionResult result = bookController.Create(testBook);
 
             // Assert
-            Assert.Equal("Index", (result as RedirectToRouteResult).RouteValues["action"]);
+            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
         }
 
         [Fact]
@@ -93,16 +95,18 @@ namespace BookshopTests.Controllers
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
             BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
 
-            BookModifyViewModel testBook = new BookModifyViewModel();
-            testBook.Id = 7;
-            testBook.Title = "Gra o Tron";
+            BookModifyViewModel testBook = new BookModifyViewModel
+            {
+                Id = 7,
+                Title = "Gra o Tron"
+            };
 
 
             // Act
             ActionResult result = bookController.Edit(testBook);
 
             // Assert
-            Assert.Equal("Index", (result as RedirectToRouteResult).RouteValues["action"]);
+            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
         }
 
 
@@ -134,16 +138,18 @@ namespace BookshopTests.Controllers
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
             BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
 
-            Book testBook = new Book();
-            testBook.Id = 7;
-            testBook.Title = "Gra o Tron";
+            Book testBook = new Book
+            {
+                Id = 7,
+                Title = "Gra o Tron"
+            };
 
 
             // Act
             ActionResult result = bookController.Delete(testBook);
 
             // Assert
-            Assert.Equal("Index", (result as RedirectToRouteResult).RouteValues["action"]);
+            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
         }
 
         [Fact]

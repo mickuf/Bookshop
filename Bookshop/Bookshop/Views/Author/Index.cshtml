@@ -7,7 +7,7 @@
 <h2>Lista autorów</h2>
 
 <p>
-    @if (System.Web.HttpContext.Current.User.IsInRole("Admin"))
+    @if (HttpContext.Current.User.IsInRole("Admin"))
     {
         @Html.ActionLink("Dodaj autora", "Create")
     }
@@ -42,7 +42,7 @@
             <td>
                 @Html.ActionLink("Szczegóły", "Details", new { id = item.AuthorId })
             </td>
-            @if (System.Web.HttpContext.Current.User.IsInRole("Admin"))
+            @if (HttpContext.Current.User.IsInRole("Admin"))
             {
                 <td>
                     @Html.ActionLink("Edytuj", "Edit", new { id = item.AuthorId })

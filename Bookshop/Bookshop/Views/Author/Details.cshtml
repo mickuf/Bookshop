@@ -37,7 +37,7 @@
     </dl>
 </div>
 <p>
-    @if (System.Web.HttpContext.Current.User.IsInRole("Admin"))
+    @if (HttpContext.Current.User.IsInRole("Admin"))
     {
         @Html.ActionLink("Edytuj", "Edit", new { id = Model.AuthorId })
     }

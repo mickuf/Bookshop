@@ -1,8 +1,7 @@
 namespace Bookshop.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class RegisterandLoginUsers : DbMigration
     {
         public override void Up()

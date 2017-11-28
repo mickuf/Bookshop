@@ -4,7 +4,6 @@
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -32,9 +31,12 @@
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = "Admin@admin.com" };
+                var user = new ApplicationUser
+                {
+                    UserName = "Admin@admin.com",
+                    Email = "Admin@admin.com"
+                };
 
-                user.Email = "Admin@admin.com";
 
                 manager.Create(user, "Admin12345");
                 manager.AddToRole(user.Id, "Admin");

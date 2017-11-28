@@ -1,15 +1,11 @@
 ﻿namespace Bookshop.Migrations
 {
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Data.Entity.Migrations;
-    using Bookshop.Controllers;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
-    using Bookshop;
-    using Microsoft.AspNet.Identity;
 
     internal sealed class Configuration : DbMigrationsConfiguration<BookshopDbContext>
     {

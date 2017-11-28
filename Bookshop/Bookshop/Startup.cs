@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Bookshop.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Bookshop.Models;
+using System;
 
 [assembly: OwinStartup(typeof(Bookshop.Startup))]
 

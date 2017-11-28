@@ -1,11 +1,11 @@
-﻿using System;
-using Xunit;
-using NSubstitute;
-using Bookshop.Repositories;
-using Bookshop.Controllers;
-using Bookshop.Utils;
+﻿using Bookshop.Controllers;
 using Bookshop.Models;
+using Bookshop.Repositories;
+using Bookshop.Utils;
+using NSubstitute;
+using System;
 using System.Web.Mvc;
+using Xunit;
 
 
 namespace BookshopTests.Controllers

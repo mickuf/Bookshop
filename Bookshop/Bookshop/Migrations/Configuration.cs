@@ -17,7 +17,7 @@
 
         protected override void Seed(BookshopDbContext context)
         {
-            if(!context.Roles.Any(r => r.Name == "Admin"))
+            if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);

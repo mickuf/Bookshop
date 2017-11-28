@@ -1,10 +1,17 @@
 ﻿namespace Bookshop.Migrations
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Data.Entity.Migrations;
+    using Bookshop.Controllers;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Bookshop;
+    using Microsoft.AspNet.Identity;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Bookshop.Models.BookshopDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<BookshopDbContext>
     {
         public Configuration()
         {
@@ -12,8 +19,30 @@
             ContextKey = "Bookshop.Models.BookshopDbContext";
         }
 
-        protected override void Seed(Bookshop.Models.BookshopDbContext context)
+        protected override void Seed(BookshopDbContext context)
         {
+            if(!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Admin" };
+
+                manager.Create(role);
+            }
+
+
+            if (!context.Users.Any(u => u.UserName == "Admin@admin.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "Admin@admin.com" };
+
+                user.Email = "Admin@admin.com";
+
+                manager.Create(user, "Admin12345");
+                manager.AddToRole(user.Id, "Admin");
+            }
+
             context.Authors.AddOrUpdate(x => x.AuthorId,
                 new Author() { AuthorId = 1, Name = "George R.R.", Surname = "Martin", Description = "Pisarz, twórca science fiction i fantasy, zarówno opowiadań jak i powieści, wielokrotny zdobywca nagród Nebula i Hugo oraz wielu innych (World Fantasy Award, Bram Stoker Award, Locus Award). Początkowo publikował pod nazwiskiem pozbawionym dwóch \"R\", które dołączył, gdy zaczęto go mylić z managerem The Beatles. Jego utwory przetłumaczono na 14 języków, w tym polski. Jest również autorem popularnej sagi fantasy Pieśń Lodu i Ognia, na której oparto między innymi grę fabularną A Game of Thrones. Na podstawie jego prac nakręcono kilka filmów i odcinków serii telewizyjnych (Remembering Melody, 1984; Nightflyers, 1987; Sandkings, 1995). George R. R. Martin współpracował także przy tworzeniu różnych projektów telewizyjnych (Strefa mroku, Beauty and the Beast, Doorways, itp.)." },
                 new Author() { AuthorId = 2, Name = "Andrzej", Surname = "Sapkowski", Description = "Polski pisarz fantasy, z wykształcenia ekonomista. Twórca postaci wiedźmina. Jest najczęściej po Lemie tłumaczonym polskim autorem fantastyki. W 2012 roku minister kultury i dziedzictwa narodowego Bogdan Zdrojewski odznaczył go srebrnym medalem Gloria Artis." },

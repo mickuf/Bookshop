@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Bookshop.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
@@ -27,7 +28,7 @@ namespace Bookshop.Controllers
             _searchUtility = searchUtility;
         }
 
-
+        [AllowAnonymous]
         public ActionResult Index(string filter)
         {
             _log.DebugFormat("GET Index with filter: {0}", filter);
@@ -145,6 +146,7 @@ namespace Bookshop.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             _log.DebugFormat("GET Details with id: {0}", id);

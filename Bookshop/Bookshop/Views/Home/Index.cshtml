@@ -3,11 +3,30 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Menu</h2>
+<h2>Funkcjonalności:</h2>
 <div>
     <ul>
-        <li>@Html.ActionLink("Lista książek", "Index", "Book")</li>
-        <li>@Html.ActionLink("Lista autorów", "Index", "Author")</li>
+        <li>Tworzenie konta użytkownika</li>
+        <li>Logowanie do konta użytkownika</li>
+    </ul>
+
+    <h4>Dla zalogowanego/niezalogowanego użytkownika:</h4>
+    <ul>
+        <li>Przeglądanie listy książek i autorów</li>
+        <li>Wyszukiwanie w liście książek i autorów</li>
+        <li>Wyświetlanie szczegółów ksiażki i autora</li>
+    </ul>
+
+    <h4>Dla zalogowanego użytkownika jako admin</h4>
+    <h5>(Email: Admin@admin.com Hasło: Admin12345)</h5>
+    <ul>
+        <li>Przeglądanie listy książek i autorów</li>
+        <li>Wyszukiwanie w liście książek i autorów</li>
+        <li>Wyświetlanie szczegółów ksiażki i autora</li>
+
+        <li>Dodawanie książek i autorów</li>
+        <li>Edycja ksiażek i autorów</li>
+        <li>Usuwanie książek i autorów</li>
     </ul>
 </div>
 

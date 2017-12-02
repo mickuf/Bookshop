@@ -18,7 +18,8 @@ namespace BookshopTests.Controllers
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult viewResult = authorController.Index(String.Empty) as ViewResult;
@@ -33,7 +34,8 @@ namespace BookshopTests.Controllers
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = authorController.Create() as ViewResult;
@@ -43,34 +45,13 @@ namespace BookshopTests.Controllers
         }
 
         [Fact]
-        public void Create_WhenCalledWithAuthor_ShouldRedirectToIndex()
-        {
-            // Arrange
-            IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
-            ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
-
-            Author testAuthor = new Author
-            {
-                Name = "Adam",
-                Surname = "Kowalski"
-            };
-
-
-            // Act
-            ActionResult result = authorController.Create(testAuthor);
-
-            // Assert
-            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
-        }
-
-        [Fact]
         public void Create_WhenCalledWithNullAuthor_ShouldNotReturnNull()
         {
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             Author testAuthor = null;
 
@@ -87,10 +68,11 @@ namespace BookshopTests.Controllers
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
 
             authorRepository.GetAuthorById(7).Returns(new Author());
 
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = authorController.Edit(7) as ViewResult;
@@ -100,34 +82,13 @@ namespace BookshopTests.Controllers
         }
 
         [Fact]
-        public void Edit_WhenCalledWithAuthor_ShouldRedirectToIndex()
-        {
-            // Arrange
-            IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
-            ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
-
-            Author testAuthor = new Author
-            {
-                Name = "Adam",
-                Surname = "Kowalski"
-            };
-
-
-            // Act
-            ActionResult result = authorController.Edit(testAuthor);
-
-            // Assert
-            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
-        }
-
-        [Fact]
         public void Edit_WhenCalledWithNullAuthor_ShouldNotReturnNull()
         {
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             Author testAuthor = null;
 
@@ -144,10 +105,11 @@ namespace BookshopTests.Controllers
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
 
             authorRepository.GetAuthorById(7).Returns(new Author());
 
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = authorController.Delete(7) as ViewResult;
@@ -162,7 +124,8 @@ namespace BookshopTests.Controllers
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             Author testAuthor = new Author
             {
@@ -185,10 +148,11 @@ namespace BookshopTests.Controllers
             // Arrange
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
 
             authorRepository.GetAuthorById(7).Returns(new Author());
 
-            AuthorController authorController = new AuthorController(authorRepository, searchUtility);
+            AuthorController authorController = new AuthorController(authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = authorController.Details(7) as ViewResult;

@@ -24,6 +24,9 @@ namespace Bookshop.Models
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
+        [Display(Name = "Obrazek")]
+        public string ImagePath { get; set; }
+
         public int AuthorId { get; set; }
 
         [Display(Name = "Autor")]

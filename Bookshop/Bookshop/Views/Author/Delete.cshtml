@@ -6,41 +6,49 @@
 
 <h2>Usuń</h2>
 
+<h4>Autora</h4>
+<hr />
+
 <div>
-    <h4>Autora</h4>
-    <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+
+        <dd><img src="@Url.Content(Model.ImagePath)" alt="" height="400" width="350" /></dd>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            <h3>
+                @Html.DisplayFor(model => model.Name)
+                @Html.DisplayFor(model => model.Surname)
+            </h3>
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Surname)
-        </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Surname)
+            <p>@Html.DisplayFor(model => model.Description)</p>
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+        @if (Model.Book.Count != 0)
+        {
+            <dd>
+                <h4>Książki:</h4>
+            </dd>
+            <dd>
+                @foreach (var item in Model.Book)
+                {
+                    @Html.DisplayFor(modelItem => item.Title) <br />
+                }
+            </dd>
+        }
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
             @Html.HiddenFor(model => model.AuthorId)
+            @Html.HiddenFor(model => model.ImagePath)
+            @Html.HiddenFor(model => model.Book)
+
             <input type="submit" value="Usuń" class="btn btn-default" /> |
             @Html.ActionLink("Powrót", "Index")
         </div>

@@ -1,6 +1,6 @@
 # Bookshop
 
-<Funkcjonalności:
+Funkcjonalności:
 
 * Tworzenie konta użytkownika
 * Logowanie do konta użytkownika

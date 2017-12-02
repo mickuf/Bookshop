@@ -18,8 +18,13 @@ namespace Bookshop.Models
         public string Surname { get; set; }
 
         [Display(Name = "Opis")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Display(Name = "Obrazek")]
+        public string ImagePath { get; set; }
+
+        [Display(Name = "Książki")]
         public ICollection<Book> Book { get; set; }
     }
 }

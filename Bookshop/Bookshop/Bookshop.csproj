@@ -288,6 +288,10 @@
     <Compile Include="Migrations\201711281052236_Register and Login Users.Designer.cs">
       <DependentUpon>201711281052236_Register and Login Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712021653357_Books And Authors Images.cs" />
+    <Compile Include="Migrations\201712021653357_Books And Authors Images.Designer.cs">
+      <DependentUpon>201712021653357_Books And Authors Images.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
@@ -298,6 +302,8 @@
     <Compile Include="Repositories\IAuthorRepository.cs" />
     <Compile Include="Repositories\IBookRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\IImageFileUtility.cs" />
+    <Compile Include="Utils\ImageFileUtility.cs" />
     <Compile Include="Utils\ISearchUtility.cs" />
     <Compile Include="Utils\SearchUtilty.cs" />
     <Compile Include="ViewModels\BookModifyViewModel.cs" />
@@ -349,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711281052236_Register and Login Users.resx">
       <DependentUpon>201711281052236_Register and Login Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712021653357_Books And Authors Images.resx">
+      <DependentUpon>201712021653357_Books And Authors Images.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

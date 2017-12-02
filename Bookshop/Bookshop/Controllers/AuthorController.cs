@@ -3,7 +3,9 @@ using Bookshop.Repositories;
 using Bookshop.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Bookshop.Controllers
@@ -13,18 +15,23 @@ namespace Bookshop.Controllers
     {
         private readonly IAuthorRepository _authorRepository;
         private readonly ISearchUtility _searchUtility;
+        private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private const string DefaultImagePath = "\\Content\\images\\default.png";
+        private const string ImageFolderUrl = "~/Content/images/";
 
         public AuthorController()
         {
             _authorRepository = new AuthorRepository(new BookshopDbContext());
             _searchUtility = new SearchUtilty();
+            _imageFileUtility = new ImageFileUtility();
         }
 
-        public AuthorController(IAuthorRepository authorRepository, ISearchUtility searchUtility)
+        public AuthorController(IAuthorRepository authorRepository, ISearchUtility searchUtility, IImageFileUtility imageFileUtility)
         {
             _authorRepository = authorRepository;
             _searchUtility = searchUtility;
+            _imageFileUtility = imageFileUtility;
         }
 
         [AllowAnonymous]
@@ -65,8 +72,14 @@ namespace Bookshop.Controllers
                 if (ModelState.IsValid)
                 {
                     Log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
+
+                    HttpPostedFileBase file = Request.Files[0];
+
+                    author.ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl);
+
                     _authorRepository.CreateAuthor(author);
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Details", new { id = author.AuthorId });
                 }
             }
             catch (Exception ex)
@@ -97,13 +110,27 @@ namespace Bookshop.Controllers
         {
             try
             {
-                Log.DebugFormat("POST Edit with author: {0} {1} with id: {0}", author.Name, author.Surname, author.AuthorId);
+                Log.DebugFormat("POST Edit with author: {0} {1} with id: {2}", author.Name, author.Surname, author.AuthorId);
 
                 if (ModelState.IsValid)
                 {
                     Log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
+
+                    HttpPostedFileBase file = Request.Files[0];
+
+                    if (file == null || file.ContentLength == 0)
+                    {
+                        Log.Debug("User do not want change picture");
+                    }
+                    else
+                    {
+                        _imageFileUtility.DeleteImageFromPath(author.ImagePath, DefaultImagePath);
+
+                        author.ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl);
+                    }
+
                     _authorRepository.UpdateAuthor(author);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", new { id = author.AuthorId});
                 }
             }
             catch (Exception ex)
@@ -111,7 +138,7 @@ namespace Bookshop.Controllers
                 Log.Warn("Update Author failed!", ex);
                 ModelState.AddModelError(string.Empty, "Nie można zaktualizować autora, spróbuj ponownie");
             }
-            return View();
+            return View(author);
         }
 
         public ActionResult Delete(int id)
@@ -134,6 +161,8 @@ namespace Bookshop.Controllers
             try
             {
                 Log.DebugFormat("POST Delete with author: {0} {1} with id: {2}", author.Name, author.Surname, author.AuthorId);
+
+                _imageFileUtility.DeleteImageFromPath(author.ImagePath, DefaultImagePath);
 
                 _authorRepository.DeleteAuthor(author.AuthorId);
             }

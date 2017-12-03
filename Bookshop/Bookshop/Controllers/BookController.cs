@@ -157,6 +157,18 @@ namespace Bookshop.Controllers
                     else
                     {
                         _imageFileUtility.DeleteImageFromPath(model.ImagePath);
+
+                        _bookRepository.UpdateBook(
+                            new Book()
+                            {
+                                Id = model.Id,
+                                Title = model.Title,
+                                PublicationDate = model.PublicationDate,
+                                ISBN = model.ISBN,
+                                ImagePath = _imageFileUtility.SaveImageFileInPath(file),
+                                Description = model.Description,
+                                AuthorId = model.AuthorId
+                            });
                     }
 
                     _bookRepository.UpdateBook(
@@ -166,7 +178,7 @@ namespace Bookshop.Controllers
                                 Title = model.Title,
                                 PublicationDate = model.PublicationDate,
                                 ISBN = model.ISBN,
-                                ImagePath = _imageFileUtility.SaveImageFileInPath(file),
+                                ImagePath = model.ImagePath,
                                 Description = model.Description,
                                 AuthorId = model.AuthorId
                             });

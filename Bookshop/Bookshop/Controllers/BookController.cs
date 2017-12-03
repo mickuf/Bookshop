@@ -5,6 +5,7 @@ using Bookshop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Bookshop.Controllers
@@ -15,20 +16,25 @@ namespace Bookshop.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly ISearchUtility _searchUtility;
+        private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private const string DefaultImagePath = "\\Content\\images\\defaultBook.png";
+        private const string ImageFolderUrl = "~/Content/images/";
 
         public BookController()
         {
             _bookRepository = new BookRepository(new BookshopDbContext());
             _authorRepository = new AuthorRepository(new BookshopDbContext());
             _searchUtility = new SearchUtilty();
+            _imageFileUtility = new ImageFileUtility();
         }
 
-        public BookController(IBookRepository bookRepository, IAuthorRepository authorRepository, ISearchUtility searchUtility)
+        public BookController(IBookRepository bookRepository, IAuthorRepository authorRepository, ISearchUtility searchUtility, IImageFileUtility imageFileUtility)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _searchUtility = searchUtility;
+            _imageFileUtility = imageFileUtility;
         }
 
         [AllowAnonymous]
@@ -76,19 +82,25 @@ namespace Bookshop.Controllers
                 if (ModelState.IsValid)
                 {
                     Log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
-                    _bookRepository.CreateBook(new Book()
+
+                    HttpPostedFileBase file = Request.Files[0];
+
+                    int bookId = _bookRepository.CreateBook(new Book()
                     {
                         Title = model.Title,
                         PublicationDate = model.PublicationDate,
                         ISBN = model.ISBN,
+                        ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl),
                         Description = model.Description,
                         AuthorId = model.AuthorId
                     });
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", new { id = bookId });
                 }
                 Log.DebugFormat("Is model valid: {0} repopulate authors DropDownList", ModelState.IsValid);
+
                 model.Authors = _authorRepository.GetAuthorsSelectList().ToList();
+
                 return View(model);
             }
             catch (Exception ex)
@@ -119,6 +131,7 @@ namespace Bookshop.Controllers
                     Title = book.Title,
                     PublicationDate = book.PublicationDate,
                     ISBN = book.ISBN,
+                    ImagePath = book.ImagePath,
                     Description = book.Description,
                     AuthorId = book.AuthorId,
                     Authors = authorsSelectList
@@ -137,18 +150,30 @@ namespace Bookshop.Controllers
                 {
                     Log.DebugFormat("Is model valid: {0}", ModelState.IsValid);
 
-                    _bookRepository.UpdateBook(
-                        new Book()
-                        {
-                            Id = model.Id,
-                            Title = model.Title,
-                            PublicationDate = model.PublicationDate,
-                            ISBN = model.ISBN,
-                            Description = model.Description,
-                            AuthorId = model.AuthorId
-                        });
+                    HttpPostedFileBase file = Request.Files[0];
 
-                    return RedirectToAction("Index");
+                    if (file == null || file.ContentLength == 0)
+                    {
+                        Log.Debug("User do not want change picture");
+                    }
+                    else
+                    {
+                        _imageFileUtility.DeleteImageFromPath(model.ImagePath, DefaultImagePath);
+                    }
+
+                    _bookRepository.UpdateBook(
+                            new Book()
+                            {
+                                Id = model.Id,
+                                Title = model.Title,
+                                PublicationDate = model.PublicationDate,
+                                ISBN = model.ISBN,
+                                ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl),
+                                Description = model.Description,
+                                AuthorId = model.AuthorId
+                            });
+
+                    return RedirectToAction("Details", new { id = model.Id });
                 }
                 Log.DebugFormat("Is model valid: {0} repopulate authors DropDownList", ModelState.IsValid);
                 model.Authors = _authorRepository.GetAuthorsSelectList().ToList();
@@ -182,6 +207,8 @@ namespace Bookshop.Controllers
             try
             {
                 Log.DebugFormat("POST Delete with book: {0} with id: {1}", book.Title, book.Id);
+
+                _imageFileUtility.DeleteImageFromPath(book.ImagePath, DefaultImagePath);
 
                 _bookRepository.DeleteBook(book.Id);
             }

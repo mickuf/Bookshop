@@ -19,7 +19,8 @@ namespace BookshopTests.Controllers
             IBookRepository bookRepository = Substitute.For<IBookRepository>();
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult viewResult = bookController.Index(String.Empty) as ViewResult;
@@ -35,7 +36,8 @@ namespace BookshopTests.Controllers
             IBookRepository bookRepository = Substitute.For<IBookRepository>();
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = bookController.Create() as ViewResult;
@@ -44,28 +46,7 @@ namespace BookshopTests.Controllers
             Assert.NotNull(result);
         }
 
-        [Fact]
-        public void Create_WhenCalledWithBookModifyViewModel_ShouldRedirectToIndex()
-        {
-            // Arrange
-            IBookRepository bookRepository = Substitute.For<IBookRepository>();
-            IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
-            ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
 
-            BookModifyViewModel testBook = new BookModifyViewModel
-            {
-                Id = 7,
-                Title = "Gra o Tron"
-            };
-
-
-            // Act
-            ActionResult result = bookController.Create(testBook);
-
-            // Assert
-            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
-        }
 
         [Fact]
         public void Edit_WhenCalledWithIntParameter_ShouldNotReturnNull()
@@ -74,10 +55,11 @@ namespace BookshopTests.Controllers
             IBookRepository bookRepository = Substitute.For<IBookRepository>();
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
 
             bookRepository.GetBookById(7).Returns(new Book());
 
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
+            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = bookController.Edit(7) as ViewResult;
@@ -87,40 +69,17 @@ namespace BookshopTests.Controllers
         }
 
         [Fact]
-        public void Edit_WhenCalledWithBookModifyViewModel_ShouldRedirectToIndex()
-        {
-            // Arrange
-            IBookRepository bookRepository = Substitute.For<IBookRepository>();
-            IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
-            ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
-
-            BookModifyViewModel testBook = new BookModifyViewModel
-            {
-                Id = 7,
-                Title = "Gra o Tron"
-            };
-
-
-            // Act
-            ActionResult result = bookController.Edit(testBook);
-
-            // Assert
-            Assert.Equal("Index", ((RedirectToRouteResult) result).RouteValues["action"]);
-        }
-
-
-        [Fact]
         public void Delete_WhenCalledWithIntParameter_ShouldNotReturnNull()
         {
             // Arrange
             IBookRepository bookRepository = Substitute.For<IBookRepository>();
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
 
             bookRepository.GetBookById(7).Returns(new Book());
 
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
+            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = bookController.Delete(7) as ViewResult;
@@ -136,7 +95,8 @@ namespace BookshopTests.Controllers
             IBookRepository bookRepository = Substitute.For<IBookRepository>();
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
+            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility, imageFileUtility);
 
             Book testBook = new Book
             {
@@ -159,10 +119,11 @@ namespace BookshopTests.Controllers
             IBookRepository bookRepository = Substitute.For<IBookRepository>();
             IAuthorRepository authorRepository = Substitute.For<IAuthorRepository>();
             ISearchUtility searchUtility = Substitute.For<ISearchUtility>();
+            IImageFileUtility imageFileUtility = Substitute.For<IImageFileUtility>();
 
             bookRepository.GetBookById(7).Returns(new Book());
 
-            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility);
+            BookController bookController = new BookController(bookRepository, authorRepository, searchUtility, imageFileUtility);
 
             // Act
             ViewResult result = bookController.Details(7) as ViewResult;

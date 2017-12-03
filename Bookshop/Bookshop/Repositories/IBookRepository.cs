@@ -7,7 +7,7 @@ namespace Bookshop.Repositories
     {
         IEnumerable<Book> GetBooks();
         Book GetBookById(int bookId);
-        void CreateBook(Book book);
+        int CreateBook(Book book);
         void UpdateBook(Book book);
         void DeleteBook(int bookId);
     }

@@ -43,7 +43,8 @@
 <p>
     @if (HttpContext.Current.User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Edytuj", "Edit", new { id = Model.AuthorId })
+        @Html.ActionLink("Edytuj ", "Edit", new { id = Model.AuthorId })
+        @Html.ActionLink("Usuń", "Delete", new { id = Model.AuthorId })
     }
 
     @Html.ActionLink("Przejdz do listy autorów", "Index")

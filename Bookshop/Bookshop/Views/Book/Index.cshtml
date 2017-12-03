@@ -19,50 +19,38 @@
     }
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PublicationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </th>
-        <th></th>
-    </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                <img src="@Url.Content(item.ImagePath)" alt="" height="300" width="275" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Author.Name)
-                @Html.DisplayFor(modelItem => item.Author.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublicationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ISBN)
-            </td>
-            <td>
-                @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })
-            </td>
+                <p><b>@Html.DisplayNameFor(model => model.Title)</b> @Html.DisplayFor(modelItem => item.Title)</p>
+                
+                <p><b>@Html.DisplayNameFor(model => model.Author)</b> @Html.DisplayFor(modelItem => item.Author.Name) @Html.DisplayFor(modelItem => item.Author.Surname)</p>
+                
+                <p><b>@Html.DisplayNameFor(model => model.PublicationDate)</b> @Html.DisplayFor(modelItem => item.PublicationDate)</p>
+                
+                <p><b>@Html.DisplayNameFor(model => model.ISBN)</b> @Html.DisplayFor(modelItem => item.ISBN)</p>
+                
+                <p><b>@Html.DisplayNameFor(model => model.Description)</b> @Html.DisplayFor(modelItem => item.Description)</p>
+            
+                <br /> <br />
+            
+                @Html.ActionLink("Szczegóły", "Details", new {id = item.Id})
+            
             @if (HttpContext.Current.User.IsInRole("Admin"))
             {
-                <td>
-                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id })
-                </td>
-                <td>
-                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
-                </td>
+                
+                    @Html.ActionLink("Edytuj ", "Edit", new {id = item.Id})
+                
+                
+                    @Html.ActionLink("Usuń", "Delete", new {id = item.Id})
+                
             }
+            </td>
         </tr>
     }
 

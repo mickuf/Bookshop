@@ -17,7 +17,7 @@ namespace Bookshop.Controllers
         private readonly ISearchUtility _searchUtility;
         private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private const string DefaultImagePath = "\\Content\\images\\default.png";
+        private const string DefaultImagePath = "\\Content\\images\\defaultUser.png";
         private const string ImageFolderUrl = "~/Content/images/";
 
         public AuthorController()

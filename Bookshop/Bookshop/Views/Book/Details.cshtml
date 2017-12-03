@@ -6,10 +6,22 @@
 
 <h2>Szczegóły</h2>
 
+<h4>Książki</h4>
+<hr />
+
 <div>
-    <h4>Książki</h4>
-    <hr />
     <dl class="dl-horizontal">
+        
+        <dd><img src="@Url.Content(Model.ImagePath)" alt="" height="400" width="350" /></dd> 
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Author)
         </dt>
@@ -17,14 +29,6 @@
         <dd>
             @Html.DisplayFor(model => model.Author.Name)
             @Html.DisplayFor(model => model.Author.Surname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
         </dd>
 
         <dt>
@@ -56,8 +60,9 @@
 <p>
 @if (HttpContext.Current.User.IsInRole("Admin"))
 {
-    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id })
+    @Html.ActionLink("Edytuj ", "Edit", new { id = Model.Id })
+    @Html.ActionLink("Usuń", "Delete", new { id = Model.Id })
 }
     
-    @Html.ActionLink("Powrót", "Index")
+    @Html.ActionLink("Przejdz do listy książek", "Index")
 </p>

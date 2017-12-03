@@ -51,7 +51,7 @@ namespace Bookshop.Repositories
             return _bookshopDbContext.Books.OrderBy(x => x.Title).Include(b => b.Author).ToList();
         }
 
-        public void CreateBook(Book book)
+        public int CreateBook(Book book)
         {
             try
             {
@@ -64,6 +64,8 @@ namespace Bookshop.Repositories
             {
                 Log.Warn("Can't add book to database!", ex);
             }
+
+            return book.Id;
         }
 
         public void UpdateBook(Book book)

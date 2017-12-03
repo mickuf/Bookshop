@@ -27,6 +27,9 @@ namespace Bookshop.ViewModels
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
+        [Display(Name = "Obrazek")]
+        public string ImagePath { get; set; }
+
         [Display(Name = "Autor")]
         public int AuthorId { get; set; }
         public List<SelectListItem> Authors { get; set; }

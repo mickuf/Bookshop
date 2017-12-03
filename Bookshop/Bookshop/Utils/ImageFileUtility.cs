@@ -1,39 +1,40 @@
-﻿using Bookshop.Models;
-using Bookshop.Repositories;
-using Bookshop.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
 namespace Bookshop.Utils
 {
     public class ImageFileUtility : IImageFileUtility
     {
+        private const string DefaultImagePath = "\\Content\\images\\default.png";
+        private const string ImageFolderUrl = "~/Content/images/";
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public string SaveImageFileInPath(HttpPostedFileBase file, string imageFolderUrl)
+        public string SaveImageFileInPath(HttpPostedFileBase file)
         {
             string imagePath;
 
             try
             {
-                if (file != null && file.ContentLength > 0 && imageFolderUrl != null)
+                if (file != null && file.ContentLength > 0)
                 {
-                    Log.Debug("Image file exist");
+                    Log.Debug("File exist");
 
-                    string fileName = Path.GetFileName(file.FileName);
-                    string guid = Guid.NewGuid().ToString();
-                    string wholeImagePath = Path.Combine(HttpContext.Current.Server.MapPath(imageFolderUrl), guid + fileName);
-                    file.SaveAs(wholeImagePath);
+                    string fileExtension = Path.GetExtension(file.FileName);
 
-                    Log.DebugFormat("Image file saved in: {0}", wholeImagePath);
+                    if ((fileExtension.Contains("png") || fileExtension.Contains("jpg") || fileExtension.Contains("jpeg")))
+                    {
+                        string fileName = Path.GetFileName(file.FileName);
+                        string guid = Guid.NewGuid().ToString();
+                        string wholeImagePath = Path.Combine(HttpContext.Current.Server.MapPath(ImageFolderUrl), guid + fileName);
+                        file.SaveAs(wholeImagePath);
 
-                    imagePath = imageFolderUrl + guid + fileName;
+                        Log.DebugFormat("Image file saved in: {0}", wholeImagePath);
 
-                    return imagePath;
+                        imagePath = ImageFolderUrl + guid + fileName;
+
+                        return imagePath;
+                    }
                 }
             }
             catch (Exception ex)
@@ -43,11 +44,11 @@ namespace Bookshop.Utils
 
             Log.Debug("Image file not exist, used default image file");
 
-            imagePath = imageFolderUrl + "default.png";
+            imagePath = ImageFolderUrl + "default.png";
             return imagePath;
         }
 
-        public void DeleteImageFromPath(string path, string defaultImagePath)
+        public void DeleteImageFromPath(string path)
         {
             try
             {
@@ -55,7 +56,7 @@ namespace Bookshop.Utils
 
                 Log.DebugFormat("Image file path to delete: {0}", pathToDelete);
 
-                if (File.Exists(pathToDelete) && !pathToDelete.Contains(defaultImagePath))
+                if (File.Exists(pathToDelete) && !pathToDelete.Contains(DefaultImagePath))
                 {
                     File.Delete(pathToDelete);
                     Log.Debug("Image file deleted");

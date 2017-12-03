@@ -3,7 +3,6 @@ using Bookshop.Repositories;
 using Bookshop.Utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,8 +16,6 @@ namespace Bookshop.Controllers
         private readonly ISearchUtility _searchUtility;
         private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private const string DefaultImagePath = "\\Content\\images\\defaultUser.png";
-        private const string ImageFolderUrl = "~/Content/images/";
 
         public AuthorController()
         {
@@ -75,7 +72,7 @@ namespace Bookshop.Controllers
 
                     HttpPostedFileBase file = Request.Files[0];
 
-                    author.ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl);
+                    author.ImagePath = _imageFileUtility.SaveImageFileInPath(file);
 
                     _authorRepository.CreateAuthor(author);
 
@@ -124,9 +121,9 @@ namespace Bookshop.Controllers
                     }
                     else
                     {
-                        _imageFileUtility.DeleteImageFromPath(author.ImagePath, DefaultImagePath);
+                        _imageFileUtility.DeleteImageFromPath(author.ImagePath);
 
-                        author.ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl);
+                        author.ImagePath = _imageFileUtility.SaveImageFileInPath(file);
                     }
 
                     _authorRepository.UpdateAuthor(author);
@@ -162,9 +159,16 @@ namespace Bookshop.Controllers
             {
                 Log.DebugFormat("POST Delete with author: {0} {1} with id: {2}", author.Name, author.Surname, author.AuthorId);
 
-                _imageFileUtility.DeleteImageFromPath(author.ImagePath, DefaultImagePath);
+                // delete author's book images
+                Author authorToDelete = _authorRepository.GetAuthorById(author.AuthorId);
+                foreach (var book in authorToDelete.Book)
+                {
+                    _imageFileUtility.DeleteImageFromPath(book.ImagePath);
+                }
 
-                _authorRepository.DeleteAuthor(author.AuthorId);
+                _imageFileUtility.DeleteImageFromPath(authorToDelete.ImagePath);
+
+                _authorRepository.DeleteAuthor(authorToDelete.AuthorId);
             }
             catch (Exception ex)
             {

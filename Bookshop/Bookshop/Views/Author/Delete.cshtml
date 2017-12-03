@@ -47,7 +47,7 @@
         <div class="form-actions no-color">
             @Html.HiddenFor(model => model.AuthorId)
             @Html.HiddenFor(model => model.ImagePath)
-            @Html.HiddenFor(model => model.Book)
+            @Html.HiddenFor((model => model.Book))
 
             <input type="submit" value="Usuń" class="btn btn-default" /> |
             @Html.ActionLink("Powrót", "Index")

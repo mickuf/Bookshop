@@ -18,8 +18,6 @@ namespace Bookshop.Controllers
         private readonly ISearchUtility _searchUtility;
         private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private const string DefaultImagePath = "\\Content\\images\\defaultBook.png";
-        private const string ImageFolderUrl = "~/Content/images/";
 
         public BookController()
         {
@@ -90,7 +88,7 @@ namespace Bookshop.Controllers
                         Title = model.Title,
                         PublicationDate = model.PublicationDate,
                         ISBN = model.ISBN,
-                        ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl),
+                        ImagePath = _imageFileUtility.SaveImageFileInPath(file),
                         Description = model.Description,
                         AuthorId = model.AuthorId
                     });
@@ -158,7 +156,7 @@ namespace Bookshop.Controllers
                     }
                     else
                     {
-                        _imageFileUtility.DeleteImageFromPath(model.ImagePath, DefaultImagePath);
+                        _imageFileUtility.DeleteImageFromPath(model.ImagePath);
                     }
 
                     _bookRepository.UpdateBook(
@@ -168,7 +166,7 @@ namespace Bookshop.Controllers
                                 Title = model.Title,
                                 PublicationDate = model.PublicationDate,
                                 ISBN = model.ISBN,
-                                ImagePath = _imageFileUtility.SaveImageFileInPath(file, ImageFolderUrl),
+                                ImagePath = _imageFileUtility.SaveImageFileInPath(file),
                                 Description = model.Description,
                                 AuthorId = model.AuthorId
                             });
@@ -208,7 +206,7 @@ namespace Bookshop.Controllers
             {
                 Log.DebugFormat("POST Delete with book: {0} with id: {1}", book.Title, book.Id);
 
-                _imageFileUtility.DeleteImageFromPath(book.ImagePath, DefaultImagePath);
+                _imageFileUtility.DeleteImageFromPath(book.ImagePath);
 
                 _bookRepository.DeleteBook(book.Id);
             }

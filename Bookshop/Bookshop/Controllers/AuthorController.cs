@@ -36,11 +36,11 @@ namespace Bookshop.Controllers
         {
             Log.DebugFormat("GET Index with filter: {0}", filter);
             IEnumerable<Author> authors = _authorRepository.GetAuthors();
-
+            
             if (authors == null)
             {
                 Log.Warn("Authors list is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }
 
             if (!String.IsNullOrEmpty(filter))
@@ -95,7 +95,7 @@ namespace Bookshop.Controllers
             if (author == null)
             {
                 Log.Warn("Author object is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }
 
             return View(author);
@@ -146,7 +146,7 @@ namespace Bookshop.Controllers
             if (author == null)
             {
                 Log.Warn("Author object is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }
 
             return View(author);
@@ -187,7 +187,7 @@ namespace Bookshop.Controllers
             if (author == null)
             {
                 Log.Warn("Author object is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }          
             return View(author);
         }

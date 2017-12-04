@@ -44,7 +44,7 @@ namespace Bookshop.Controllers
             if (books == null)
             {
                 Log.Warn("Books list is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }
 
             if (!String.IsNullOrEmpty(filter))
@@ -119,7 +119,7 @@ namespace Bookshop.Controllers
             if (book == null)
             {
                 Log.Warn("Book or AuthorsSelectList object is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }
 
             return View("Edit",
@@ -153,6 +153,18 @@ namespace Bookshop.Controllers
                     if (file == null || file.ContentLength == 0)
                     {
                         Log.Debug("User do not want change picture");
+
+                        _bookRepository.UpdateBook(
+                            new Book()
+                            {
+                                Id = model.Id,
+                                Title = model.Title,
+                                PublicationDate = model.PublicationDate,
+                                ISBN = model.ISBN,
+                                ImagePath = model.ImagePath,
+                                Description = model.Description,
+                                AuthorId = model.AuthorId
+                            });
                     }
                     else
                     {
@@ -170,18 +182,6 @@ namespace Bookshop.Controllers
                                 AuthorId = model.AuthorId
                             });
                     }
-
-                    _bookRepository.UpdateBook(
-                            new Book()
-                            {
-                                Id = model.Id,
-                                Title = model.Title,
-                                PublicationDate = model.PublicationDate,
-                                ISBN = model.ISBN,
-                                ImagePath = model.ImagePath,
-                                Description = model.Description,
-                                AuthorId = model.AuthorId
-                            });
 
                     return RedirectToAction("Details", new { id = model.Id });
                 }
@@ -205,7 +205,7 @@ namespace Bookshop.Controllers
             if (book == null)
             {
                 Log.Warn("Book object is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }
 
             return View(book);
@@ -239,7 +239,7 @@ namespace Bookshop.Controllers
             if (book == null)
             {
                 Log.Warn("Book object is null!");
-                return new HttpNotFoundResult();
+                throw new HttpException();
             }           
 
             return View(book);

@@ -311,13 +311,9 @@
     <Compile Include="Migrations\201711191728140_DataAnnotations.Designer.cs">
       <DependentUpon>201711191728140_DataAnnotations.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711281052236_Register and Login Users.cs" />
-    <Compile Include="Migrations\201711281052236_Register and Login Users.Designer.cs">
-      <DependentUpon>201711281052236_Register and Login Users.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712021653357_Books And Authors Images.cs" />
-    <Compile Include="Migrations\201712021653357_Books And Authors Images.Designer.cs">
-      <DependentUpon>201712021653357_Books And Authors Images.cs</DependentUpon>
+    <Compile Include="Migrations\201712040817160_Register And Login Users Add Description And Images.cs" />
+    <Compile Include="Migrations\201712040817160_Register And Login Users Add Description And Images.Designer.cs">
+      <DependentUpon>201712040817160_Register And Login Users Add Description And Images.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
@@ -380,11 +376,8 @@
     <EmbeddedResource Include="Migrations\201711191728140_DataAnnotations.resx">
       <DependentUpon>201711191728140_DataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711281052236_Register and Login Users.resx">
-      <DependentUpon>201711281052236_Register and Login Users.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712021653357_Books And Authors Images.resx">
-      <DependentUpon>201712021653357_Books And Authors Images.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712040817160_Register And Login Users Add Description And Images.resx">
+      <DependentUpon>201712040817160_Register And Login Users Add Description And Images.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

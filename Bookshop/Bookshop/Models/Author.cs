@@ -18,7 +18,7 @@ namespace Bookshop.Models
         public string Surname { get; set; }
 
         [Display(Name = "Opis")]
-        [DataType(DataType.MultilineText)]
+        [StringLength(2000, ErrorMessage = "Maksymalna dłuość opisu to 2000 znaków")]
         public string Description { get; set; }
 
         [Display(Name = "Obrazek")]

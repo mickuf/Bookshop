@@ -2,7 +2,7 @@ namespace Bookshop.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    public partial class RegisterandLoginUsers : DbMigration
+    public partial class RegisterAndLoginUsersAddDescriptionAndImages : DbMigration
     {
         public override void Up()
         {
@@ -74,8 +74,10 @@ namespace Bookshop.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
-            AddColumn("dbo.Authors", "Description", c => c.String());
-            AddColumn("dbo.Books", "Description", c => c.String());
+            AddColumn("dbo.Authors", "Description", c => c.String(maxLength: 2000));
+            AddColumn("dbo.Authors", "ImagePath", c => c.String());
+            AddColumn("dbo.Books", "Description", c => c.String(maxLength: 2000));
+            AddColumn("dbo.Books", "ImagePath", c => c.String());
         }
         
         public override void Down()
@@ -90,7 +92,9 @@ namespace Bookshop.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropColumn("dbo.Books", "ImagePath");
             DropColumn("dbo.Books", "Description");
+            DropColumn("dbo.Authors", "ImagePath");
             DropColumn("dbo.Authors", "Description");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

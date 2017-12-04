@@ -15,6 +15,8 @@ namespace Bookshop.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data wydania")]
+        [Range(typeof(DateTime), "1/1/1700", "1/1/2100",
+            ErrorMessage = "Poprawna data to data między {1} i {2}")]
         public DateTime PublicationDate { get; set; }
 
         [Required]
@@ -22,6 +24,7 @@ namespace Bookshop.Models
         public string ISBN { get; set; }
 
         [Display(Name = "Opis")]
+        [StringLength(2000, ErrorMessage = "Maksymalna dłuość opisu to 2000 znaków")]
         public string Description { get; set; }
 
         [Display(Name = "Obrazek")]

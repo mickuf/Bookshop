@@ -2,7 +2,6 @@
 using Bookshop.Models;
 using Bookshop.Repositories;
 using Bookshop.Utils;
-using Bookshop.ViewModels;
 using NSubstitute;
 using System;
 using System.Web.Mvc;

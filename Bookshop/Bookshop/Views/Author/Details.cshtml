@@ -1,4 +1,4 @@
-﻿@model Bookshop.Models.Author
+﻿@model Bookshop.ViewModels.AuthorDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -12,30 +12,71 @@
 <div>
     <dl class="dl-horizontal">
 
-        <dd><img src="@Url.Content(Model.ImagePath)" alt="" height="400" width="300" /></dd>
+        <dd><img src="@Url.Content(Model.Author.ImagePath)" alt="" height="400" width="300" /></dd>
 
         <dd>
             <h3>
-                @Html.DisplayFor(model => model.Name)
-                @Html.DisplayFor(model => model.Surname)
+                @Html.DisplayFor(model => model.Author.Name)
+                @Html.DisplayFor(model => model.Author.Surname)
             </h3>
         </dd>
 
         <dd>
-            <p>@Html.DisplayFor(model => model.Description)</p>
+            <p>@Html.DisplayFor(model => model.Author.Description)</p>
         </dd>
 
-        @if (Model.Book.Count != 0)
+        @if (Model.Author.Book.Count != 0)
         {
             <dd>
                 <h4>Książki:</h4>
             </dd>
             <dd>
-                @foreach (var item in Model.Book)
+                @foreach (var item in Model.Author.Book)
                 {
                     @Html.DisplayFor(modelItem => item.Title) <br />
                 }
             </dd>
+        }
+
+        @if (Model.Author.Comment.Count != 0)
+        {
+            <dd>
+                <br />
+                <h4>Komentarze:</h4>
+            </dd>
+            <dd>
+                @foreach (var item in Model.Author.Comment)
+                {
+                    @Html.DisplayFor(modelItem => item.PublicationDate)
+                    <b> @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)</b> <br />
+                    @Html.DisplayFor(modelItem => item.Content) <br /> <br />
+                }
+            </dd>
+        }
+
+        @if (HttpContext.Current.User.IsInRole("User") || HttpContext.Current.User.IsInRole("Admin"))
+        {
+            using (Html.BeginForm("Details", "Author", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="form-group">
+                        @Html.Label("Twój komentarz", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.CommentContent, 10, 100, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @Html.HiddenFor(model => model.Author.AuthorId)
+                            <input type="submit" value="Zapisz" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
         }
 
     </dl>
@@ -43,8 +84,8 @@
 <p>
     @if (HttpContext.Current.User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Edytuj ", "Edit", new { id = Model.AuthorId })
-        @Html.ActionLink("Usuń", "Delete", new { id = Model.AuthorId })
+        @Html.ActionLink("Edytuj ", "Edit", new { id = Model.Author.AuthorId })
+        @Html.ActionLink("Usuń", "Delete", new { id = Model.Author.AuthorId })
     }
 
     @Html.ActionLink("Przejdz do listy autorów", "Index")

@@ -20,6 +20,8 @@ namespace Bookshop.Models
 
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<AuthorComment> AuthorComments { get; set; }
+        public DbSet<BookComment> BookComments { get; set; }
 
         public static BookshopDbContext Create()
         {
@@ -35,6 +37,7 @@ namespace Bookshop.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            manager.AddToRole(userIdentity.GetUserId(), "User");
             // Add custom user claims here
             return userIdentity;
         }
@@ -90,6 +93,7 @@ namespace Bookshop.Models
                 manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
+
             return manager;
         }
     }

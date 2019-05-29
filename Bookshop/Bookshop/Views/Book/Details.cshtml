@@ -1,4 +1,4 @@
-﻿@model Bookshop.Models.Book
+﻿@model Bookshop.ViewModels.BookDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,59 +11,101 @@
 
 <div>
     <dl class="dl-horizontal">
-        
-        <dd><img src="@Url.Content(Model.ImagePath)" alt="" height="400" width="300" /></dd> 
-        
-        
+
+        <dd><img src="@Url.Content(Model.Book.ImagePath)" alt="" height="400" width="300" /></dd>
+
+
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Book.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Book.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Author)
+            @Html.DisplayNameFor(model => model.Book.Author)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.Name)
-            @Html.DisplayFor(model => model.Author.Surname)
+            @Html.DisplayFor(model => model.Book.Author.Name)
+            @Html.DisplayFor(model => model.Book.Author.Surname)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PublicationDate)
+            @Html.DisplayNameFor(model => model.Book.PublicationDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PublicationDate)
+            @Html.DisplayFor(model => model.Book.PublicationDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
+            @Html.DisplayNameFor(model => model.Book.ISBN)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ISBN)
+            @Html.DisplayFor(model => model.Book.ISBN)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Book.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Book.Description)
         </dd>
+
+        @if (Model.Book.Comment.Count != 0)
+        {
+            <dd>
+                <br />
+                <h4>Komentarze:</h4>
+            </dd>
+            <dd>
+                @foreach (var item in Model.Book.Comment)
+                {
+                    @Html.DisplayFor(modelItem => item.PublicationDate)
+                    <b> @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)</b> <br />
+                    @Html.DisplayFor(modelItem => item.Content) <br /> <br />
+                }
+            </dd>
+        }
+
+        @if (HttpContext.Current.User.IsInRole("User") || HttpContext.Current.User.IsInRole("Admin"))
+        {
+            using (Html.BeginForm("Details", "Book", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="form-group">
+                        @Html.Label("Twój komentarz", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.CommentContent, 10, 100, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @Html.HiddenFor(model => model.Book.Id)
+                            <input type="submit" value="Zapisz" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        }
 
     </dl>
 </div>
+
 <p>
-@if (HttpContext.Current.User.IsInRole("Admin"))
-{
-    @Html.ActionLink("Edytuj ", "Edit", new { id = Model.Id })
-    @Html.ActionLink("Usuń", "Delete", new { id = Model.Id })
-}
-    
+    @if (HttpContext.Current.User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edytuj ", "Edit", new { id = Model.Book.Id })
+        @Html.ActionLink("Usuń", "Delete", new { id = Model.Book.Id })
+    }
+
     @Html.ActionLink("Przejdz do listy książek", "Index")
 </p>

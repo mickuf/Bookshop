@@ -42,7 +42,7 @@ namespace Bookshop.Repositories
         public Book GetBookById(int bookId)
         {
             Log.DebugFormat("Finding book in database with id: {0}", bookId);
-            return _bookshopDbContext.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == bookId);
+            return _bookshopDbContext.Books.Include(c => c.Comment.Select(a => a.ApplicationUser)).Include(b => b.Author).FirstOrDefault(b => b.Id == bookId);
         }
 
         public IEnumerable<Book> GetBooks()

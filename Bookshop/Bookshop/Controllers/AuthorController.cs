@@ -1,6 +1,8 @@
 ﻿using Bookshop.Models;
 using Bookshop.Repositories;
 using Bookshop.Utils;
+using Bookshop.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,11 @@ using System.Web.Mvc;
 
 namespace Bookshop.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly ISearchUtility _searchUtility;
         private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -20,6 +23,7 @@ namespace Bookshop.Controllers
         public AuthorController()
         {
             _authorRepository = new AuthorRepository(new BookshopDbContext());
+            _commentRepository = new CommentRepository(new BookshopDbContext());
             _searchUtility = new SearchUtilty();
             _imageFileUtility = new ImageFileUtility();
         }
@@ -182,14 +186,33 @@ namespace Bookshop.Controllers
         public ActionResult Details(int id)
         {
             Log.DebugFormat("GET Details with id: {0}", id);
-            Author author = _authorRepository.GetAuthorById(id);
 
-            if (author == null)
+            AuthorDetailsViewModel authorDetails = new AuthorDetailsViewModel()
+            {
+                Author = _authorRepository.GetAuthorById(id)
+            };
+
+            if (authorDetails.Author == null)
             {
                 Log.Warn("Author object is null!");
                 throw new HttpException();
             }          
-            return View(author);
+            return View(authorDetails);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(AuthorDetailsViewModel model)
+        {
+            _commentRepository.CreateComment(new AuthorComment()
+            {
+                ApplicationUserId = User.Identity.GetUserId(),
+                AuthorId = model.Author.AuthorId,
+                Content = model.CommentContent,
+                PublicationDate = DateTime.Now
+            });
+
+            return RedirectToAction("Details", "Author", new { id = model.Author.AuthorId });
         }
     }
 }

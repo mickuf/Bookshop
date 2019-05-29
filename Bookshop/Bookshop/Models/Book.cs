@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bookshop.Models
@@ -34,5 +35,8 @@ namespace Bookshop.Models
 
         [Display(Name = "Autor")]
         public Author Author { get; set; }
+
+        [Display(Name = "Komentarze")]
+        public ICollection<BookComment> Comment { get; set; }
     }
 }

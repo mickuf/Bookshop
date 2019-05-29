@@ -26,5 +26,8 @@ namespace Bookshop.Models
 
         [Display(Name = "Książki")]
         public ICollection<Book> Book { get; set; }
+
+        [Display(Name = "Komentarze")]
+        public ICollection<AuthorComment> Comment { get; set; }
     }
 }

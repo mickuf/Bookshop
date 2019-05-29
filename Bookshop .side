@@ -1,0 +1,381 @@
+{
+  "id": "8f06b244-0796-48dd-9051-e3e2cd9409d3",
+  "version": "2.0",
+  "name": "Bookshop ",
+  "url": "http://localhost:53855",
+  "tests": [{
+    "id": "59632179-7be3-456a-9bb5-7a892ad41bb9",
+    "name": "Dodaj komentarz do ksiazki",
+    "commands": [{
+      "id": "4bda2b53-e586-4473-9474-fa858b517564",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "835e308f-77d8-4f57-a08b-4cc16a71b6ef",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1458x832",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a6eb5ffc-651b-489f-b9bd-539888b62d28",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Wyloguj",
+      "targets": [
+        ["linkText=Wyloguj", "linkText"],
+        ["css=.navbar-right > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Wyloguj')]", "xpath:link"],
+        ["xpath=//form[@id='logoutForm']/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, \"javascript:document.getElementById('logoutForm').submit()\")]", "xpath:href"],
+        ["xpath=//form/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Wyloguj')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "449da07e-474f-4090-b406-aec43c77ac21",
+      "comment": "",
+      "command": "click",
+      "target": "id=loginLink",
+      "targets": [
+        ["id=loginLink", "id"],
+        ["linkText=Logowanie", "linkText"],
+        ["css=#loginLink", "css:finder"],
+        ["xpath=//a[contains(text(),'Logowanie')]", "xpath:link"],
+        ["xpath=//a[@id='loginLink']", "xpath:attributes"],
+        ["xpath=//a[contains(@href, '/Account/Login')]", "xpath:href"],
+        ["xpath=//ul[2]/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logowanie')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c06249fc-56f4-4c35-8634-fc852b5d7bb1",
+      "comment": "",
+      "command": "click",
+      "target": "id=Email",
+      "targets": [
+        ["id=Email", "id"],
+        ["name=Email", "name"],
+        ["css=#Email", "css:finder"],
+        ["xpath=//input[@id='Email']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7df654bb-dd22-4a1a-af49-41e6afa2fde5",
+      "comment": "",
+      "command": "type",
+      "target": "id=Email",
+      "targets": [
+        ["id=Email", "id"],
+        ["name=Email", "name"],
+        ["css=#Email", "css:finder"],
+        ["xpath=//input[@id='Email']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "TestUser123@test.pl"
+    }, {
+      "id": "d2673a7e-fcf7-47b6-816e-476a383befba",
+      "comment": "",
+      "command": "click",
+      "target": "id=Password",
+      "targets": [
+        ["id=Password", "id"],
+        ["name=Password", "name"],
+        ["css=#Password", "css:finder"],
+        ["xpath=//input[@id='Password']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a8cbc2c9-f805-421f-832f-39030622fa4e",
+      "comment": "",
+      "command": "type",
+      "target": "id=Password",
+      "targets": [
+        ["id=Password", "id"],
+        ["name=Password", "name"],
+        ["css=#Password", "css:finder"],
+        ["xpath=//input[@id='Password']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "TestUser123,"
+    }, {
+      "id": "6ab98244-1590-463b-98df-4aeacf03fb68",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Zaloguj']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div[4]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d902ffde-ff57-48ec-81ed-957df8fe89bc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Książki",
+      "targets": [
+        ["linkText=Książki", "linkText"],
+        ["css=.nav:nth-child(1) > li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Książki')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Book')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Książki')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b53d0265-107b-4cf3-a6ad-7f145ca99afb",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Szczegóły",
+      "targets": [
+        ["linkText=Szczegóły", "linkText"],
+        ["css=tr:nth-child(1) a", "css:finder"],
+        ["xpath=//a[contains(text(),'Szczegóły')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Book/Details/14')]", "xpath:href"],
+        ["xpath=//td[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Szczegóły')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9372abc4-cbf0-42f7-8c41-9ee687f020b8",
+      "comment": "",
+      "command": "click",
+      "target": "id=CommentContent",
+      "targets": [
+        ["id=CommentContent", "id"],
+        ["name=CommentContent", "name"],
+        ["css=#CommentContent", "css:finder"],
+        ["xpath=//textarea[@id='CommentContent']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "81b78fd2-0ee2-45e1-9029-e2d519f41481",
+      "comment": "",
+      "command": "type",
+      "target": "id=CommentContent",
+      "targets": [
+        ["id=CommentContent", "id"],
+        ["name=CommentContent", "name"],
+        ["css=#CommentContent", "css:finder"],
+        ["xpath=//textarea[@id='CommentContent']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Test123"
+    }, {
+      "id": "1698dbe6-3644-4c93-9a49-df259ed7bf33",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Zapisz']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "28076cdc-5757-4493-ac61-151f056d3089",
+    "name": "Dodaj komentarz do autora",
+    "commands": [{
+      "id": "22d810a8-18d8-44c8-bdc6-801071037ecb",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6cec46d0-7e86-47f4-81a1-947e00a2338c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1459x834",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bb374065-5636-4d2a-886a-c016429f5c61",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Wyloguj",
+      "targets": [
+        ["linkText=Wyloguj", "linkText"],
+        ["css=.navbar-right > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Wyloguj')]", "xpath:link"],
+        ["xpath=//form[@id='logoutForm']/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, \"javascript:document.getElementById('logoutForm').submit()\")]", "xpath:href"],
+        ["xpath=//form/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Wyloguj')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c5706fbc-77f0-4f11-a4a8-83322f7aa76b",
+      "comment": "",
+      "command": "click",
+      "target": "id=loginLink",
+      "targets": [
+        ["id=loginLink", "id"],
+        ["linkText=Logowanie", "linkText"],
+        ["css=#loginLink", "css:finder"],
+        ["xpath=//a[contains(text(),'Logowanie')]", "xpath:link"],
+        ["xpath=//a[@id='loginLink']", "xpath:attributes"],
+        ["xpath=//a[contains(@href, '/Account/Login')]", "xpath:href"],
+        ["xpath=//ul[2]/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logowanie')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2136078-adc2-4c05-a81c-c0558a75ea9f",
+      "comment": "",
+      "command": "click",
+      "target": "id=Email",
+      "targets": [
+        ["id=Email", "id"],
+        ["name=Email", "name"],
+        ["css=#Email", "css:finder"],
+        ["xpath=//input[@id='Email']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "197713e6-8c90-4784-9c74-ee6515104ab5",
+      "comment": "",
+      "command": "type",
+      "target": "id=Email",
+      "targets": [
+        ["id=Email", "id"],
+        ["name=Email", "name"],
+        ["css=#Email", "css:finder"],
+        ["xpath=//input[@id='Email']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "TestUser44@test.pl"
+    }, {
+      "id": "822ed252-20c8-47ec-b185-3e509939b0ba",
+      "comment": "",
+      "command": "click",
+      "target": "id=Password",
+      "targets": [
+        ["id=Password", "id"],
+        ["name=Password", "name"],
+        ["css=#Password", "css:finder"],
+        ["xpath=//input[@id='Password']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a960ff7-2f55-472f-9236-9ff650fbfe76",
+      "comment": "",
+      "command": "type",
+      "target": "id=Password",
+      "targets": [
+        ["id=Password", "id"],
+        ["name=Password", "name"],
+        ["css=#Password", "css:finder"],
+        ["xpath=//input[@id='Password']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "TestUser123,"
+    }, {
+      "id": "7f30a4b2-a4e8-41a0-bf8b-e617406407e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Zaloguj']", "xpath:attributes"],
+        ["xpath=//section[@id='loginForm']/form/div[4]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "72415d69-916a-4af0-84c8-95c408b92ad9",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autorzy",
+      "targets": [
+        ["linkText=Autorzy", "linkText"],
+        ["css=.nav:nth-child(1) > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autorzy')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Author')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autorzy')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "20944c51-0400-4c6c-b115-7593c8fd12b6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Szczegóły",
+      "targets": [
+        ["linkText=Szczegóły", "linkText"],
+        ["css=tr:nth-child(1) a", "css:finder"],
+        ["xpath=//a[contains(text(),'Szczegóły')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Author/Details/2')]", "xpath:href"],
+        ["xpath=//td[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Szczegóły')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "832bab1a-e1bc-4668-a46c-56f77a95c138",
+      "comment": "",
+      "command": "click",
+      "target": "id=CommentContent",
+      "targets": [
+        ["id=CommentContent", "id"],
+        ["name=CommentContent", "name"],
+        ["css=#CommentContent", "css:finder"],
+        ["xpath=//textarea[@id='CommentContent']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8b8e30d-0d37-4eb8-b715-fe96be9e42bb",
+      "comment": "",
+      "command": "type",
+      "target": "id=CommentContent",
+      "targets": [
+        ["id=CommentContent", "id"],
+        ["name=CommentContent", "name"],
+        ["css=#CommentContent", "css:finder"],
+        ["xpath=//textarea[@id='CommentContent']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Świetny Autor!"
+    }, {
+      "id": "be1b5790-0b0d-4c99-b5be-2bd8feff5edf",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Zapisz']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "b70dd4a1-51d1-4229-8cfd-d5cf4bcc15ee",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["59632179-7be3-456a-9bb5-7a892ad41bb9"]
+  }],
+  "urls": ["http://localhost:53855/"],
+  "plugins": []
+}

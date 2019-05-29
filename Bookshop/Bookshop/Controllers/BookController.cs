@@ -2,6 +2,7 @@
 using Bookshop.Repositories;
 using Bookshop.Utils;
 using Bookshop.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,12 @@ using System.Web.Mvc;
 
 namespace Bookshop.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public class BookController : Controller
     {
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly ISearchUtility _searchUtility;
         private readonly IImageFileUtility _imageFileUtility;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -23,6 +25,7 @@ namespace Bookshop.Controllers
         {
             _bookRepository = new BookRepository(new BookshopDbContext());
             _authorRepository = new AuthorRepository(new BookshopDbContext());
+            _commentRepository = new CommentRepository(new BookshopDbContext());
             _searchUtility = new SearchUtilty();
             _imageFileUtility = new ImageFileUtility();
         }
@@ -61,7 +64,7 @@ namespace Bookshop.Controllers
         public ActionResult Create()
         {
             Log.Debug("GET Create");
-            List<SelectListItem> authorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();              
+            List<SelectListItem> authorsSelectList = _authorRepository.GetAuthorsSelectList().ToList();
 
             return View("Create",
                 new BookModifyViewModel()
@@ -234,15 +237,34 @@ namespace Bookshop.Controllers
         public ActionResult Details(int id)
         {
             Log.DebugFormat("GET Details with id: {0}", id);
-            Book book = _bookRepository.GetBookById(id);
 
-            if (book == null)
+            BookDetailsViewModel bookDetails = new BookDetailsViewModel()
+            {
+                Book = _bookRepository.GetBookById(id)
+            };
+        
+            if (bookDetails.Book == null)
             {
                 Log.Warn("Book object is null!");
                 throw new HttpException();
-            }           
+            }
 
-            return View(book);
+            return View(bookDetails);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(BookDetailsViewModel model)
+        {
+            _commentRepository.CreateComment(new BookComment()
+            {
+                ApplicationUserId = User.Identity.GetUserId(),
+                BookId = model.Book.Id,
+                Content = model.CommentContent,
+                PublicationDate = DateTime.Now
+            });
+
+            return RedirectToAction("Details", "Book", new { id = model.Book.Id });
         }
     }
 }

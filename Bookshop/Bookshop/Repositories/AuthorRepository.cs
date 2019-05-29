@@ -44,7 +44,7 @@ namespace Bookshop.Repositories
         public Author GetAuthorById(int authorId)
         {
             Log.DebugFormat("Finding author in database with id: {0}", authorId);
-            return _bookshopDbContext.Authors.Include(a => a.Book).FirstOrDefault(a => a.AuthorId == authorId);
+            return _bookshopDbContext.Authors.Include(c => c.Comment.Select(a => a.ApplicationUser)).Include(a => a.Book).FirstOrDefault(a => a.AuthorId == authorId);
         }
 
         public IEnumerable<Author> GetAuthors()
